@@ -8,7 +8,7 @@ import pandas
 # housing = pandas.read_csv(
     
 #     ## http://jse.amstat.org/v19n3/decock.pdf
-#     "https://raw.githubusercontent.com/paobranco/ImbalancedLearnRegression/master/data/housing.csv"
+#     "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv"
 # )
 
 # ## conduct ro
@@ -25,7 +25,7 @@ import pandas
 # college = pandas.read_csv(
     
 #     ## http://jse.amstat.org/v19n3/decock.pdf
-#     "https://raw.githubusercontent.com/paobranco/ImbalancedLearnRegression/master/data/College.csv"
+#     "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/College.csv"
 # )
 
 # ## conduct gn
@@ -42,7 +42,7 @@ import pandas
 # diabetic = pandas.read_csv(
     
 #     ## http://jse.amstat.org/v19n3/decock.pdf
-#     "https://raw.githubusercontent.com/paobranco/ImbalancedLearnRegression/master/data/diabetic_data.csv"
+#     "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/diabetic_data.csv"
 # )
 
 # ## conduct smogn
@@ -59,7 +59,7 @@ import pandas
 housing = pandas.read_csv(
     
     ## http://jse.amstat.org/v19n3/decock.pdf
-    "https://raw.githubusercontent.com/paobranco/ImbalancedLearnRegression/master/data/housing.csv"
+    "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv"
 )
 
 ## conduct cnn
@@ -76,7 +76,7 @@ housing_cnn = cnn(
 college = pandas.read_csv(
     
     ## http://jse.amstat.org/v19n3/decock.pdf
-    "https://raw.githubusercontent.com/paobranco/ImbalancedLearnRegression/master/data/College.csv"
+    "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/College.csv"
 )
 
 ## conduct gn
