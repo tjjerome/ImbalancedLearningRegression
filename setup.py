@@ -2,14 +2,14 @@ from setuptools import setup
 
 setup(
     
-    name = 'smogn',
-    version = '0.1.1',
-    description = 'A Python implementation of Synthetic Minority Over-Sampling Technique for Regression with Gaussian Noise (SMOGN)',
+    name = 'ImbalancedLearn-Regression',
+    version = '0.0.0',
+    description = 'Python implementations of preprocesssing imbalanced data for regression',
     long_description = open('README.md').read(),
     long_description_content_type = "text/markdown",
-    author = 'Nick Kunz',
-    author_email = 'nick.kunz@columbia.edu',
-    url = 'https://github.com/nickkunz/smogn',
+    author = 'Paula Branco, Wenglei Wu, Alex Chengen Lyu, Lingyi Kong, Gloria Hu',
+    author_email = 'pbranco@uottawa.ca, wwu077@uottawa.ca, clyu039@uottawa.ca, lkong073@uottawa.ca, xhu005@uottawa.ca',
+    url = 'https://github.com/paobranco/ImbalancedLearn-Regression',
     classifiers = [
         
         'Programming Language :: Python :: 3',
@@ -25,16 +25,20 @@ setup(
     keywords = [
         
         'smote',
+        'Gaussian noise',
+        'condensed nearest neighbour',
+        'edited nearest neighbour',
+        'Tomek links',
+        'ADASYN',
         'over-sampling',
+        'under-sampling',
         'synthetic data',
         'imbalanced data',
         'pre-processing',
         'regression'
     ],
     
-    packages = ['smogn'],
+    packages = ['ImbalancedLearn-Regression'],
     include_package_data = True,
-    install_requires = ['numpy', 'pandas', 'tqdm'],
-    tests_require = ['nose'],
-    test_suite = 'nose.collector'
+    install_requires = ['numpy', 'pandas'],
 )

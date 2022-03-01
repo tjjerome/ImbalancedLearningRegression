@@ -1,8 +1,0 @@
-build/
-dist/
-smogn.egg-info/
-.eggs
-.git
-.Rproj.user
-.Rhistory
-smogn.Rproj
