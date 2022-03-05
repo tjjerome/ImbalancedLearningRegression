@@ -95,10 +95,6 @@ def smote(
         raise ValueError("cannot proceed: k is greater than number of \
                observations / rows contained in the dataframe")
     
-    ## quality check for perturbation
-    if pert > 1 or pert <= 0:
-        raise ValueError("pert must be a real number number: 0 < R < 1")
-    
     ## quality check for sampling method
     if samp_method in ["balance", "extreme"] is False:
         raise ValueError("samp_method must be either: 'balance' or 'extreme' ")
