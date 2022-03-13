@@ -12,7 +12,8 @@ def under_sampling_cnn(
     data,           ## training set
     index,          ## index of input data
     estimator,      ## KNN classifier
-    store_indices   ## original indices of STORE are those in the minority set
+    store_indices,  ## original indices of STORE are those in the minority set
+    n_seed          ## number of seed samples moved from a mojority set to STORE at the beginning
     
     ):
     
@@ -63,9 +64,14 @@ def under_sampling_cnn(
     ## initialize grabbag
     grabbag_indices = list()
     
-    ## randomly pick one sample from majority and add it to STORE
-    first_normal_rand_index = int(np.random.choice(a = index, size = 1))
-    store_indices.append(first_normal_rand_index)
+    ## randomly pick one or more sample(s) from majority and add it to STORE
+    try:
+        normal_seed_index = list(np.random.choice(a = index, size = n_seed, replace = False))
+    except ValueError:
+        print("n_seed =", n_seed, ">", len(index))
+        print("WARNING: n_seed is greater than the number of samples avaiable in a majority bin, used n_seed = 1 instead!")
+        normal_seed_index = list(np.random.choice(a = index, size = 1, replace = False))
+    store_indices.extend(normal_seed_index)
 
     ## store dimensions of data subset
     n = len(data)

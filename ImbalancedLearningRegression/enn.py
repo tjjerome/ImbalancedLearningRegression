@@ -109,6 +109,14 @@ def enn(
     
     if rel_thres > 1 or rel_thres <= 0:
         raise ValueError("rel_thres must be a real number number: 0 < R < 1")
+
+    ## quality check for k
+    if type(k) != int or k <= 0:
+        raise ValueError("k must be a positive integer")
+
+    ## quality check for n_jobs
+    if type(n_jobs) != int or n_jobs <= 0:
+        raise ValueError("n_jobs must be a positive integer")
     
     ## store data dimensions
     n = len(data)

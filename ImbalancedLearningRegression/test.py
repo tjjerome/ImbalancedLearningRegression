@@ -56,6 +56,41 @@ import pandas
      
 # )
 
+## load data
+housing = pandas.read_csv(
+    
+    ## http://jse.amstat.org/v19n3/decock.pdf
+    "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv"
+)
+
+## conduct cnn
+housing_cnn = cnn(
+    
+    data = housing, 
+    y = "SalePrice",
+    n_seed=3000,
+    #replace = True,
+    #under_samp=False
+    
+)
+
+## load data
+college = pandas.read_csv(
+    
+    ## http://jse.amstat.org/v19n3/decock.pdf
+    "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/College.csv"
+)
+
+## conduct cnn
+college_cnn = cnn(
+    
+    data = college, 
+    y = "Grad.Rate",
+    n_seed=3,
+    #replace = True,
+    #under_samp=False
+)
+
 # ## load data
 # housing = pandas.read_csv(
     
@@ -63,8 +98,8 @@ import pandas
 #     "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv"
 # )
 
-# ## conduct cnn
-# housing_cnn = cnn(
+# ## conduct enn
+# housing_enn = enn(
     
 #     data = housing, 
 #     y = "SalePrice",
@@ -80,45 +115,12 @@ import pandas
 #     "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/College.csv"
 # )
 
-# ## conduct cnn
-# college_cnn = cnn(
+# ## conduct enn
+# college_enn = enn(
     
 #     data = college, 
 #     y = "Grad.Rate",
 #     #replace = True,
 #     #under_samp=False
 # )
-
-## load data
-housing = pandas.read_csv(
-    
-    ## http://jse.amstat.org/v19n3/decock.pdf
-    "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv"
-)
-
-## conduct enn
-housing_enn = enn(
-    
-    data = housing, 
-    y = "SalePrice",
-    #replace = True,
-    #under_samp=False
-    
-)
-
-## load data
-college = pandas.read_csv(
-    
-    ## http://jse.amstat.org/v19n3/decock.pdf
-    "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/College.csv"
-)
-
-## conduct enn
-college_enn = enn(
-    
-    data = college, 
-    y = "Grad.Rate",
-    #replace = True,
-    #under_samp=False
-)
 

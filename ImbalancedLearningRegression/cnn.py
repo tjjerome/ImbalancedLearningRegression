@@ -1,4 +1,5 @@
 ## load dependencies - third party
+from heapq import nsmallest
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
@@ -20,7 +21,8 @@ def cnn(
     samp_method = "balance",  ## over / under sampling ("balance" or extreme")
     drop_na_col = True,       ## auto drop columns with nan's (bool)
     drop_na_row = True,       ## auto drop rows with nan's (bool)
-    
+    n_seed = 1,               ## number of seed samples moved from a mojority set to STORE at the beginning
+
     ## phi relevance function arguments / inputs
     rel_thres = 0.5,          ## relevance threshold considered rare (pos real)
     rel_method = "auto",      ## relevance method ("auto" or "manual")
@@ -30,7 +32,8 @@ def cnn(
 
     ## KNeighborsClassifier attribute
     k = 1,                    ## the number of neighbors used for K-NN
-    n_jobs = 1                ## the number of parallel jobs to run for neighbors search.
+    n_jobs = 1                ## the number of parallel jobs to run for neighbors search
+
     
     ):
     
@@ -102,6 +105,10 @@ def cnn(
     ## quality check for sampling method
     if samp_method in ["balance", "extreme"] is False:
         raise ValueError("samp_method must be either: 'balance' or 'extreme'")
+
+    ## quality check for n_seed
+    if type(n_seed) != int or n_seed <= 0:
+        raise ValueError("n_seed must be a positive integer")
     
     ## quality check for relevance threshold parameter
     if rel_thres == None:
@@ -109,6 +116,14 @@ def cnn(
     
     if rel_thres > 1 or rel_thres <= 0:
         raise ValueError("rel_thres must be a real number number: 0 < R < 1")
+
+    ## quality check for k
+    if type(k) != int or k <= 0:
+        raise ValueError("k must be a positive integer")
+
+    ## quality check for n_jobs
+    if type(n_jobs) != int or n_jobs <= 0:
+        raise ValueError("n_jobs must be a positive integer")
     
     ## store data dimensions
     n = len(data)
@@ -238,7 +253,8 @@ def cnn(
                 data = data.copy(),
                 index = list(b_index[i].index),
                 estimator = estimator,
-                store_indices = rare_indices.copy()
+                store_indices = rare_indices.copy(),
+                n_seed = n_seed
             )
             
             ## concatenate over-sampling
