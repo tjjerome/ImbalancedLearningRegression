@@ -29,6 +29,7 @@ def cnn(
     rel_ctrl_pts_rg = None,   ## input for "manual" rel method  (2d array)
 
     ## KNeighborsClassifier attribute
+    k = 1,                    ## the number of neighbors used for K-NN
     n_jobs = 1                ## the number of parallel jobs to run for neighbors search.
     
     ):
@@ -139,7 +140,7 @@ def cnn(
     y_sort = y_sort[d - 1]
 
     ## k-NN classifier
-    estimator = KNeighborsClassifier(n_neighbors = 1, n_jobs = n_jobs)
+    estimator = KNeighborsClassifier(n_neighbors = k, n_jobs = n_jobs)
     
     ## -------------------------------- phi --------------------------------- ##
     ## calculate parameters for phi relevance function
@@ -230,9 +231,9 @@ def cnn(
         ## under-sampling
         if s_perc[i] < 1:
             
-            ## generate synthetic observations in training set
-            ## considered 'minority'
-            ## (see 'over_sampling_gn()' function for details)
+            ## condense observations in training set
+            ## considered 'majority'
+            ## (see 'under__sampling_cnn()' function for details)
             undersamp_obs = under_sampling_cnn(
                 data = data.copy(),
                 index = list(b_index[i].index),
