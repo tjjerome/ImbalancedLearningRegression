@@ -2,13 +2,13 @@
 import numpy as np
 import pandas as pd
 
-## load dependencies - internal
-# from ImbalancedLearnRegression.phi import phi
-# from ImbalancedLearnRegression.phi_ctrl_pts import phi_ctrl_pts
-# from ImbalancedLearnRegression.over_sampling_ro import over_sampling_ro
-from phi import phi
-from phi_ctrl_pts import phi_ctrl_pts
-from over_sampling_ro import over_sampling_ro
+# load dependencies - internal
+from ImbalancedLearningRegression.phi import phi
+from ImbalancedLearningRegression.phi_ctrl_pts import phi_ctrl_pts
+from ImbalancedLearningRegression.over_sampling_ro import over_sampling_ro
+# from phi import phi
+# from phi_ctrl_pts import phi_ctrl_pts
+# from over_sampling_ro import over_sampling_ro
 
 ## synthetic minority over-sampling technique for regression with random oversampling
 def ro(

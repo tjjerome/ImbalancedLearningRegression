@@ -3,13 +3,13 @@ import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 
-## load dependencies - internal
-# from ImbalancedLearnRegression.phi import phi
-# from ImbalancedLearnRegression.phi_ctrl_pts import phi_ctrl_pts
-# from ImbalancedLearnRegression.over_sampling_gn import over_sampling_gn
-from phi import phi
-from phi_ctrl_pts import phi_ctrl_pts
-from under_sampling_enn import under_sampling_enn
+# load dependencies - internal
+from ImbalancedLearningRegression.phi import phi
+from ImbalancedLearningRegression.phi_ctrl_pts import phi_ctrl_pts
+from ImbalancedLearningRegression.under_sampling_enn import under_sampling_enn
+# from phi import phi
+# from phi_ctrl_pts import phi_ctrl_pts
+# from under_sampling_enn import under_sampling_enn
 
 ## synthetic minority over-sampling technique for regression with gaussian noise 
 def enn(

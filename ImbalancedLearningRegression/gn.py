@@ -2,13 +2,13 @@
 import numpy as np
 import pandas as pd
 
-## load dependencies - internal
-# from ImbalancedLearnRegression.phi import phi
-# from ImbalancedLearnRegression.phi_ctrl_pts import phi_ctrl_pts
-# from ImbalancedLearnRegression.over_sampling_gn import over_sampling_gn
-from phi import phi
-from phi_ctrl_pts import phi_ctrl_pts
-from over_sampling_gn import over_sampling_gn
+# load dependencies - internal
+from ImbalancedLearningRegression.phi import phi
+from ImbalancedLearningRegression.phi_ctrl_pts import phi_ctrl_pts
+from ImbalancedLearningRegression.over_sampling_gn import over_sampling_gn
+# from phi import phi
+# from phi_ctrl_pts import phi_ctrl_pts
+# from over_sampling_gn import over_sampling_gn
 
 ## synthetic minority over-sampling technique for regression with gaussian noise 
 def gn(
