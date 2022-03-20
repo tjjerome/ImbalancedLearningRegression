@@ -4,12 +4,12 @@
   <img src="https://github.com/paobranco/smogn/blob/master/media/images/smogn_banner.png">
 </div>
 
-## Imbalanced Learn Regression
-[![PyPI version](https://badge.fury.io/py/smogn.svg)](https://badge.fury.io/py/smogn)
+## Imbalanced Learning Regression
+[![PyPI version](https://badge.fury.io/py/ImbalancedLearningRegression.svg)](https://badge.fury.io/py/ImbalancedLearningRegression)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Build Status](https://travis-ci.com/nickkunz/smogn.svg?branch=master)](https://travis-ci.com/nickkunz/smogn)
+[![Build Status](https://travis-ci.com/paobranco/ImbalancedLearningRegression.svg?branch=master)](https://travis-ci.com/paobranco/ImbalancedLearningRegression)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1bfe5a201f3b4a9787c6cf4b365736ed)](https://www.codacy.com/manual/nickkunz/smogn?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nickkunz/smogn&amp;utm_campaign=Badge_Grade)
-![GitHub last commit](https://img.shields.io/github/last-commit/paobranco/ImbalancedLearnRegression)
+![GitHub last commit](https://img.shields.io/github/last-commit/paobranco/ImbalancedLearningRegression)
 
 ## Description
 A Python implementation of sampling techniques for Regression. Conducts different sampling techniques for Regression. Useful for prediction problems where regression is applicable, but the values in the interest of predicting are rare or uncommon. This can also serve as a useful alternative to log transforming a skewed response variable, especially if generating synthetic data is also of interest.
@@ -32,10 +32,10 @@ A Python implementation of sampling techniques for Regression. Conducts differen
 ## Installation
 ```python
 ## install pypi release
-pip install ImbalancedLearnRegression
+pip install ImbalancedLearningRegression
 
 ## install developer version
-pip install git+https://github.com/paobranco/ImbalancedLearnRegression.git
+pip install git+https://github.com/paobranco/ImbalancedLearningRegression.git
 ```
 
 ## Usage

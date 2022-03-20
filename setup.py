@@ -2,14 +2,14 @@ from setuptools import setup
 
 setup(
     
-    name = 'ImbalancedLearn-Regression',
+    name = 'ImbalancedLearningRegression',
     version = '0.0.0',
     description = 'Python implementations of preprocesssing imbalanced data for regression',
     long_description = open('README.md').read(),
     long_description_content_type = "text/markdown",
     author = 'Paula Branco, Wenglei Wu, Alex Chengen Lyu, Lingyi Kong, Gloria Hu',
     author_email = 'pbranco@uottawa.ca, wwu077@uottawa.ca, clyu039@uottawa.ca, lkong073@uottawa.ca, xhu005@uottawa.ca',
-    url = 'https://github.com/paobranco/ImbalancedLearn-Regression',
+    url = 'https://github.com/paobranco/ImbalancedLearningRegression',
     classifiers = [
         
         'Programming Language :: Python :: 3',
@@ -38,7 +38,7 @@ setup(
         'regression'
     ],
     
-    packages = ['ImbalancedLearn-Regression'],
+    packages = ['ImbalancedLearningRegression'],
     include_package_data = True,
-    install_requires = ['numpy', 'pandas'],
+    install_requires = ['numpy', 'pandas', 'tqdm', 'sklearn'],
 )
