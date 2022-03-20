@@ -235,7 +235,7 @@ def ro(
             
             ## simply return no sampling
             ## results to modified training set
-            data_new = pd.concat([data.iloc[b_index[i].index], data_new])
+            data_new = pd.concat([data.iloc[b_index[i].index], data_new], ignore_index = True)
         
         ## over-sampling
         if s_perc[i] > 1:
@@ -252,13 +252,13 @@ def ro(
             
             ## concatenate over-sampling
             ## results to modified training set
-            data_new = pd.concat([synth_obs, data_new])
+            data_new = pd.concat([synth_obs, data_new], ignore_index = True)
 
             # added
             ## concatenate original data
             ## to modified training set
             original_obs = data.iloc[list(b_index[i].index)]
-            data_new = pd.concat([original_obs, data_new])
+            data_new = pd.concat([original_obs, data_new], ignore_index = True)
 
         ## no sampling
         if s_perc[i] < 1:
@@ -267,7 +267,7 @@ def ro(
             ## concatenate original data
             ## to modified training set
             original_obs = data.iloc[list(b_index[i].index)]
-            data_new = pd.concat([original_obs, data_new])
+            data_new = pd.concat([original_obs, data_new], ignore_index = True)
 
     
     ## rename feature headers to originals

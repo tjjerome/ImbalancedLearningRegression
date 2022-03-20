@@ -234,7 +234,7 @@ def enn(
             
             ## simply return no sampling
             ## results to modified training set
-            data_new = pd.concat([data.iloc[b_index[i].index], data_new])
+            data_new = pd.concat([data.iloc[b_index[i].index], data_new], ignore_index = True)
         
         ## under-sampling
         if s_perc[i] < 1:
@@ -251,7 +251,7 @@ def enn(
             
             ## concatenate over-sampling
             ## results to modified training set
-            data_new = pd.concat([undersamp_obs, data_new])
+            data_new = pd.concat([undersamp_obs, data_new], ignore_index = True)
 
     
     ## rename feature headers to originals

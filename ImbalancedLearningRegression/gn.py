@@ -244,7 +244,7 @@ def gn(
             
             ## simply return no sampling
             ## results to modified training set
-            data_new = pd.concat([data.iloc[b_index[i].index], data_new])
+            data_new = pd.concat([data.iloc[b_index[i].index], data_new], ignore_index = True)
         
         ## over-sampling
         if s_perc[i] > 1:
@@ -262,13 +262,13 @@ def gn(
             
             ## concatenate over-sampling
             ## results to modified training set
-            data_new = pd.concat([synth_obs, data_new])
+            data_new = pd.concat([synth_obs, data_new], ignore_index = True)
 
             # added
             ## concatenate original data
             ## to modified training set
             original_obs = data.iloc[list(b_index[i].index)]
-            data_new = pd.concat([original_obs, data_new])
+            data_new = pd.concat([original_obs, data_new], ignore_index = True)
         
         ## under-sampling
         if s_perc[i] < 1:  # exchanged
@@ -287,7 +287,7 @@ def gn(
                 
                 ## concatenate under-sampling
                 ## results to modified training set
-                data_new = pd.concat([chosen_obs, data_new])  # modified
+                data_new = pd.concat([chosen_obs, data_new], ignore_index = True)  # modified
             
             # added
             ## concatenate 'normal' data 
@@ -295,7 +295,7 @@ def gn(
             ## without undersamping
             else:
                 original_obs = data.iloc[list(b_index[i].index)]
-                data_new = pd.concat([original_obs, data_new])
+                data_new = pd.concat([original_obs, data_new], ignore_index = True)
     
     
     ## rename feature headers to originals

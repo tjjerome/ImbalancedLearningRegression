@@ -180,7 +180,7 @@ def under_sampling_cnn(
     ## conduct under sampling and store modified training set
     data_new = pd.DataFrame()
     cond = [i in store_indices and i in index for i in range(n)]
-    data_new = pd.concat([data.loc[cond,:], data_new])
+    data_new = pd.concat([data.loc[cond,:], data_new], ignore_index = True)
     
     ## replace label encoded values with original values
     for j in feat_list_nom:

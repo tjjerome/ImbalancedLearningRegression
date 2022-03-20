@@ -142,7 +142,7 @@ def under_sampling_enn(
 
     ## conduct under sampling and store modified training set
     data_new = pd.DataFrame()
-    data_new = pd.concat([data.iloc[chosen_indices], data_new])
+    data_new = pd.concat([data.iloc[chosen_indices], data_new], ignore_index = True)
     
     ## replace label encoded values with original values
     for j in feat_list_nom:
