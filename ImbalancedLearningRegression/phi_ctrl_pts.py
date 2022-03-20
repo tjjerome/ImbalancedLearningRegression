@@ -2,8 +2,8 @@
 import numpy as np
 
 ## load dependency - internal
-# from ImbalancedLearnRegression.box_plot_stats import box_plot_stats
-from box_plot_stats import box_plot_stats
+from ImbalancedLearningRegression.box_plot_stats import box_plot_stats
+# from box_plot_stats import box_plot_stats
 
 ## calculate parameters for phi relevance function
 def phi_ctrl_pts(
