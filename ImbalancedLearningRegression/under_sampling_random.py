@@ -4,21 +4,22 @@ import pandas as pd
 import random as rd
 from tqdm import tqdm
 
-## generate synthetic observations
+## under-sampling the majority classes by randomly picking samples
 def under_sampling_random(
     
     ## arguments / inputs
     data,       ## training set
     index,      ## index of input data
     perc,       ## under sampling
-    replace,    ## sampling replacement (bool)
+    replacement ## sampling replacement (bool)
     
     ):
     
     """
-    generates synthetic observations and is the primary function underlying the
-    under-sampling technique utilized in the higher main function 'random_under()', 
-    the 4 step procedure for generating synthetic observations is:
+    Under-sampling the majority classes by randomly picking samples with or 
+    without replacement. It is the primary function underlying the under-sampling 
+    technique utilized in the higher main function 'random_under()'. 
+    The 4 step procedure for under-sampling the majority classes is:
     
     1) pre-processing: temporarily removes features without variation, label 
     encodes nominal / categorical features, and subsets the training set into 
@@ -60,11 +61,6 @@ def under_sampling_random(
     ## store dimensions of data subset
     n = len(data)
     d = len(data.columns)
-    
-    ## create a subindex for subset data
-    sub_index = []
-    for i in range(n):
-        sub_index.append(i)
     
     ## store original data types
     feat_dtypes_orig = [None] * d
@@ -126,15 +122,18 @@ def under_sampling_random(
     ## total number of majority samples to be removed
     n_synth = int(n * perc)
     
-    ## randomly index data by the number of new synthetic observations
+    ## randomly choose index data by the number of majority samples to be removed
+    ## "replace" is a parameter of np.random.choice, meaning that if 
+    ## a value can be selected multiple times. This is the same as the 
+    ## "replacement" parameter defined in "random_under()
     r_index = np.random.choice(
         a = tuple(range(0, n)), 
         size = n_synth,
-        replace = replace, 
+        replace = replacement, 
         p = None
     )
     
-    ## create null matrix to store new synthetic observations
+    ## create null matrix to store the remaining synthetic observations
     synth_matrix = np.ndarray(shape = ((n - n_synth), d))
     
     ## create a sub_index for subset data

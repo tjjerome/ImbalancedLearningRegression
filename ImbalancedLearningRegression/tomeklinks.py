@@ -5,20 +5,17 @@ import pandas as pd
 ## load dependencies - internal
 from phi import phi
 from phi_ctrl_pts import phi_ctrl_pts
-from under_sampling_random import under_sampling_random
+from under_sampling_tomeklinks import under_sampling_tomeklinks
 
-## under-sampling the majority classes by randomly picking samples with or without replacement
-def random_under(
+##  under-sampling by removing Tomek’s links for regression
+def tomeklinks(
     
     ## main arguments / inputs
     data,                     ## training set (pandas dataframe)
     y,                        ## response variable y by name (string)
-    samp_method = "balance",  ## under sampling ("balance" or extreme")
+    samp_method = "balance",  ## undersampling ("balance" or extreme")
     drop_na_col = True,       ## auto drop columns with nan's (bool)
     drop_na_row = True,       ## auto drop rows with nan's (bool)
-    replacement = False,      ## sampling replacement (bool)
-    manual_perc = False,      ## user defines percentage of under-sampling # added
-    perc_o = -1,              ## percentage of under-sampling  # added
     
     ## phi relevance function arguments / inputs
     rel_thres = 0.5,          ## relevance threshold considered rare (pos real)
@@ -31,8 +28,8 @@ def random_under(
     
     """
     the main function, designed to help solve the problem of imbalanced data 
-    for regression; RU applies under-sampling of the majority class (normal 
-    values in a normal distribution of y, typically found at the tails)
+    for regression of TomekLinks method, which applies under-sampling the majority
+    class
     
     procedure begins with a series of pre-processing steps, and to ensure no 
     missing values (nan's), sorts the values in the response variable y by
@@ -42,27 +39,31 @@ def random_under(
     threshold specified in the argument 'rel_thres' 
     
     normal observations are placed into a majority class subset (normal bin), 
-    while rare observations are placed in a seperate minority class subset 
-    (rare bin) where they're over-sampled
+    while rare observations are placed in a seperate minority class 
+    subset (rare bin) where they're over-sampled
     
-    under-sampling is applied by a random sampling from the normal bin based 
+    under-sampling is applied by a random sampling from the normal bin based
     on a calculated percentage control by the argument 'samp_method', if the 
-    specified input of 'samp_method' is "balance", less under-sampling is 
+    specified input of 'samp_method' is "balance", less under-sampling is
     conducted, and if "extreme" is specified more under-sampling is conducted
-    
-    under-sampling is applied by RU, which randomly delete samples from the 
-    original samples
-    
-    procedure concludes by post-processing and returns a modified pandas data
-    frame containing under-sampled (synthetic) observations, the distribution 
-    of the response variable y should less appropriately reflect the majority 
-    class areas of interest in y that are over-represented in the original 
-    training set
 
-    note that users can also decide the percentage of under-sampling on each 
-    bin by setting manual_perc to True and assigning value to perc_o, this 
-    value will directly replace the calculated percentage of each relavant bin
- 
+    'TomekLinks' method uses the rule to selects the pair of observations
+    (say, a and b) that are fulfilled these properties:
+    1. The observation a’s nearest neighbor is b.
+    2. The observation b’s nearest neighbor is a.
+    3. Observation a and b belong to a different class. That is, a belongs to the minority 
+    and b belongs to majority class (or vice versa), respectively.
+
+    'TomekLinks' method can be used to find desired samples of data from the majority
+    class that is having the lowest Euclidean distance with the minority class data
+    (i.e. the data from the majority class that is closest with the minority class data,
+    thus make it ambiguous to distinct), and then remove it.
+
+    procedure concludes by post-processing and returns a modified pandas data
+    frame containing under-sampled (synthetic) observations,
+    the distribution of the response variable y should less appropriately
+    reflect the majority class areas of interest in y that are under-
+    represented in the original training set
     
     ref:
     
@@ -70,14 +71,6 @@ def random_under(
     SMOGN: A Pre-Processing Approach for Imbalanced Regression.
     Proceedings of Machine Learning Research, 74:36-50.
     http://proceedings.mlr.press/v74/branco17a/branco17a.pdf.
-
-    Branco, P., Torgo, L., & Ribeiro, R. P. (2019). 
-    Pre-processing approaches for imbalanced distributions in regression. 
-    Neurocomputing, 343, 76-99. 
-    https://www.sciencedirect.com/science/article/abs/pii/S0925231219301638
-
-    Kunz, N., (2019). SMOGN. 
-    https://github.com/nickkunz/smogn
     """
     
     ## pre-process missing values
@@ -99,17 +92,14 @@ def random_under(
         raise ValueError("cannot proceed: y must be an header name (string) \
                found in the dataframe")
     
+    ## quality check for k number specification
+    #if k > len(data):
+    #    raise ValueError("cannot proceed: k is greater than number of \
+    #           observations / rows contained in the dataframe")
+    
     ## quality check for sampling method
     if samp_method in ["balance", "extreme"] is False:
-        raise ValueError("samp_method must be either: 'balance' or 'extreme'")
-
-    # added
-    ## quality check for sampling percentage
-    if manual_perc:
-        if perc_o == -1:
-            raise ValueError("cannot proceed: require percentage of over-sampling if manual_perc == True")
-        if perc_o <= 0:
-            raise ValueError("percentage of over-sampling must be a positve real number")
+        raise ValueError("samp_method must be either: 'balance' or 'extreme' ")
     
     ## quality check for relevance threshold parameter
     if rel_thres == None:
@@ -174,7 +164,16 @@ def random_under(
     if all(i == 1 for i in y_phi):
         raise ValueError("redefine phi relevance function: all points are 0")
     ## ---------------------------------------------------------------------- ##
-    
+
+    ## label each observation
+    ## if minority class - label 1, if majority class - label -1
+    label = []
+    for i in range(0, len(y_sort) - 1):
+        if (y_phi[i] >= rel_thres):
+            label.append(1)
+        else:
+            label.append(-1)
+
     ## determine bin (rare or normal) by bump classification
     bumps = [0]
     
@@ -194,7 +193,7 @@ def random_under(
     for i in range(n_bumps):
         b_index.update({i: y_sort[bumps[i]:bumps[i + 1]]})
     
-    ## calculate over / under sampling percentage according to
+    ## calculate undersampling percentage according to
     ## bump class and user specified method ("balance" or "extreme")
     b = round(n / n_bumps)
     s_perc = []
@@ -214,7 +213,7 @@ def random_under(
             obj.append(round(b ** 2 / len(b_index[i]) * scale, 2))
             s_perc.append(round(obj[i] / len(b_index[i]), 1))
     
-    ## conduct over / under sampling and store modified training set
+    ## conduct undersampling and store modified training set
     data_new = pd.DataFrame()
     
     for i in range(n_bumps):
@@ -229,20 +228,19 @@ def random_under(
         ## under-sampling
         if s_perc[i] < 1:
             
-            ## generate synthetic observations in training set
+            ## removing synthetic observations in training set
             ## considered 'majority'
-            ## (see 'under_sampling_random()' function for details)
-            synth_obs = under_sampling_random(
+            ## (see 'under_sampling_tomeklinks()' function for details)
+            synth_obs = under_sampling_tomeklinks(
                 data = data,
                 index = list(b_index[i].index),
-                perc = s_perc[i] if not manual_perc else perc_o + 1,  # modified
-                replacement = replacement  # added
+                label = label,
+                perc = s_perc[i],
             )
             
-            ## concatenate over-sampling
+            ## concatenate under-sampling
             ## results to modified training set
             data_new = pd.concat([synth_obs, data_new])
-
     
     ## rename feature headers to originals
     data_new.columns = feat_names
