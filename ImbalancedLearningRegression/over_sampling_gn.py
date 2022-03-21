@@ -113,8 +113,8 @@ def over_sampling_gn(
     for j in range(d):
         if data.dtypes[j] in nom_dtypes:
             feat_list_nom.append(j)
-            data.iloc[:, j] = pd.Categorical(pd.factorize(
-                data.iloc[:, j])[0].copy()).copy()
+            data.loc[:, data.columns[j]] = pd.Categorical(pd.factorize(
+                data.iloc[:, data.columns[j]])[0])
     
     data = data.apply(pd.to_numeric)
     
