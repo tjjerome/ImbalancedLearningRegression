@@ -13,11 +13,10 @@ def under_sampling_tomeklinks(
     
     ## arguments / inputs
     data,       ## training set
-    index,      ## index of input data
     label,      ## label for each observation in the dataset
-    perc,       ## undersampling percentage
+    option,     ## user's choice of undersampling which class(es). Default is set to "majority"
+                ## option = "both" if user wants to undersample majority and minority classes
     k = 1       ## num of neighs for over-sampling. k is constant 1 since tomeklinks search for nearest neighbour only.
-    ## option
     ):
     
     """
@@ -198,60 +197,49 @@ def under_sampling_tomeklinks(
     
     knn_matrix = np.array(knn_index)
 
+    ## store indicies where two observations are each other's nearest neighbor
     temp = []
     for i in range(n):
         for j in range(n):
             if knn_matrix[i][0] == knn_matrix[j][1] and knn_matrix[i][1] == knn_matrix[j][0]:
                 temp.append(knn_matrix[i])
 
-
+    ## store indicies that belong to tomeklinks AND majority class to tomeklink_majority
+    ## store indicies that belong to tomeklinks AND minority class to tomeklink_minority
     tomeklink_majority = []
-    ## tomeklink_minority = []
+    tomeklink_minority = []
     for i in range(len(temp)):
-        if temp[i][0] in index:
-            if label[temp[i][0]] != label[temp[i][1]]:
+        if label[temp[i][0]] != label[temp[i][1]]:
+            if label[temp[i][0]] == -1:
                 tomeklink_majority.append(temp[i][0])
-                ## tomeklink_minority.append(temp[i][1])
+            else:
+                tomeklink_minority.append(temp[i][0])
 
-    
-    ## total number of new synthetic observations to generate
-    n_synth = int(len(index) * perc)
+    ## find all index of the dataset
+    all_index = []
+    for i in range(n):
+        all_index.append(i)
 
-    ## if option == "majority" or option == "not_minority":
-    if n_synth >= len(tomeklink_majority):
-        r_index = tomeklink_majority
-    else:
-        r_index = np.random.choice(
-            a=tuple(tomeklink_majority),
-            size=n_synth,
-            replace=False,
-            p=None
-        )
+    ## find the index to be undersampled according to user's choice
+    remove_index = []
+    if option == "majority" or option == "not_minority":
+        remove_index = tomeklink_majority
     
-    ## find the non-intersecting values of index and r_index  
-    new_index = np.setxor1d(index, r_index)
+    if option == "minority" or option == "not_majority":
+        remove_index = tomeklink_minority
+    
+    if option == "both" or "all":
+        remove_index = tomeklink_majority + tomeklink_minority
 
-    # if option == "minority" or option == "not_majority":
-    #     r_index = np.random.choice(
-    #         a = tuple(tomeklink_minority), 
-    #         size = n_synth, 
-    #         replace = False, 
-    #         p = None
-    #         )
-    
-    # if option = "all":
-    #     r_index = np.random.choice(
-    #         a = tuple(tomeklink_majority+tomeklink_minority), 
-    #         size = n_synth, 
-    #         replace = False, 
-    #         p = None
-    #         )
+
+    ## find the non-intersecting values of all_index and remove_index  
+    new_index = np.setxor1d(all_index, remove_index)
 
     ## create null matrix to store new synthetic observations
     synth_matrix = np.ndarray(shape = (len(new_index), d))
     
     # added
-    ## store data in the synthetic matrix, data indices are chosen randomly above
+    ## store data in the synthetic matrix
     count = 0 
     for i in tqdm(new_index, ascii = True, desc = "new_index"):
         for attr in range(d):

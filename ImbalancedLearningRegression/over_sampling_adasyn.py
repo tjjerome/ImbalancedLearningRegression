@@ -1,9 +1,3 @@
-# He, H., Bai, Y., Garcia, E. A., & Li, S. (2008, June).
-# ADASYN: Adaptive synthetic sampling approach for imbalanced
-# learning. In 2008 IEEE international joint conference on neural
-# networks (IEEE world congress on computational intelligence)
-# (pp. 1322-1328). IEEE.
-
 ## load dependencies - third party
 import numpy as np
 import pandas as pd
@@ -11,34 +5,58 @@ import random as rd
 from tqdm import tqdm
 
 ## load dependencies - internal
-import matplotlib.pyplot as plt
-from sklearn import neighbors
+from dist_metrics import euclidean_dist, heom_dist, overlap_dist
 
-## generate synthetic observations
-def adasyn(X, label, index, beta, ms, K):
+## adaptively generating minority data samples according to their distributions
+def over_sampling_adasyn(
 
-    """
-    Adaptively generating minority data samples according to their distributions.
-    More synthetic data is generated for minority class samples that are harder to learn.
-    
-    Inputs
-         -----
-         X:  Input features, X, sorted by the minority examples on top.  Minority example should also be labeled as 1
-         label:  Labels, with minority example labeled as 1
-         beta:  Degree of imbalance desired.  Neg:Pos. A 1 means the positive and negative examples are perfectly balanced.
-         K:  Amount of neighbours to look at
-         threshold:  Amount of imbalance rebalance required for algorithm
+    ## arguments / inputs
+    data,     ## training set
+    label,    ## label for each observation in the dataset 
+    index,    ## index of input data 
+    perc,     ## oversampling percentage
+    k         ## num of neighs for over-sampling
+    ):
 
     """
-    ## store original data (M)
-    originaldata = data
+    generates synthetic observations and is the primary function underlying the
+    over-sampling technique utilized in the higher main function 'adasyn()', the
+    4 step procedure for generating synthetic observations is:
     
-    ## store dimensions of original data (M)
-    ogn = len(originaldata)
+    1) pre-processing: temporarily removes features without variation, label 
+    encodes nominal / categorical features, and subsets the training set into 
+    two data sets by data type: numeric / continuous, and nominal / categorical
     
-    ## subset original dataframe by bump classification index
-    data = data.iloc[index]
+    2) distances: calculates the cartesian distances between all observations, 
+    distance metric automatically determined by data type (euclidean distance 
+    for numeric only data, heom distance for both numeric and nominal data, and 
+    hamming distance for nominal only data) and determine k nearest neighbors
     
+    3) over-sampling: 'adasyn' is used to determine the number of new synthetic 
+    observations to be generated for each observation according to the ratio of 
+    majority class in its k nearest neighbors.
+    
+    'adasyn' only applies to numeric / continuous features, 
+    for nominal / categorical features, synthetic values are generated at random 
+    from sampling observed values found within the same feature
+    
+    4) post processing: restores original values for label encoded features, 
+    reintroduces constant features previously removed, converts any interpolated
+    negative values to zero in the case of non-negative features
+    
+    returns a pandas dataframe containing both new and original observations of 
+    the training set which are then returned to the higher main function 'adasyn()'
+
+    ref:
+
+    He, H., Bai, Y., Garcia, E. A., & Li, S. (2008, June).
+    ADASYN: Adaptive synthetic sampling approach for imbalanced
+    learning. In 2008 IEEE international joint conference on neural
+    networks (IEEE world congress on computational intelligence)
+    (pp. 1322-1328). IEEE.
+
+    """
+
     ## store dimensions of data subset
     n = len(data)
     d = len(data.columns)
@@ -48,10 +66,6 @@ def adasyn(X, label, index, beta, ms, K):
     
     for j in range(d):
         feat_dtypes_orig[j] = data.iloc[:, j].dtype
-        
-    ## (M)
-    for j in range(d):
-        feat_dtypes_orig[j] = originaldata.iloc[:, j].dtype
     
     ## find non-negative numeric features
     feat_non_neg = [] 
@@ -60,8 +74,6 @@ def adasyn(X, label, index, beta, ms, K):
     for j in range(d):
         if data.iloc[:, j].dtype in num_dtypes and any(data.iloc[:, j] > 0):
             feat_non_neg.append(j)
-            
-    
     
     ## find features without variation (constant features)
     feat_const = data.columns[data.nunique() == 1]
@@ -104,7 +116,8 @@ def adasyn(X, label, index, beta, ms, K):
                 data.iloc[:, j])[0])
     
     data = data.apply(pd.to_numeric)
-        ## create numeric feature list
+    
+    ## create numeric feature list
     feat_list_num = list(set(feat_list) - set(feat_list_nom))
     
     ## calculate ranges for numeric / continuous features
@@ -174,119 +187,127 @@ def adasyn(X, label, index, beta, ms, K):
                 )
     
     ## determine indicies of k nearest neighbors
-    ## and convert knn index list to matrix
     knn_index = [None] * n
     
     for i in range(n):
-        knn_index[i] = np.argsort(dist_matrix[i])[1:k + 1]
+        knn_index[i] = np.argsort(dist_matrix[i])[0:k + 1]
+
+    ## find knn_index that belong to the bump
+    ## and convert new index list to matrix
+    temp = []
+    for i in range(len(knn_index)):
+        if knn_index[i][0] in index:
+            temp.append(knn_index[i])
+
+    knn_matrix = np.array(temp)
     
-    knn_matrix = np.array(knn_index)
-    
-    
-    
-    ## number of new synthetic observations for each rare observation
-    x_synth = int(perc - 1)
     
     ## total number of new synthetic observations to generate
-    n_synth = int(n * (perc - 1 - x_synth))
-    
-    ## randomly index data by the number of new synthetic observations
-    r_index = np.random.choice(
-        a = tuple(range(0, n)), 
-        size = n_synth, 
-        replace = replace, 
-        p = None
-    )
-    
-    ## create null matrix to store new synthetic observations
-    synth_matrix = np.ndarray(shape = ((x_synth * n + n_synth), d))
-    
+    n_synth = int(len(index) * (perc - 1))
 
-    clf = neighbors.KNeighborsClassifier()
-    clf.fit(X, label)
+    ## find the ratio ri = #majority class in neighbourhood/k for each observation
+    ri = 0
+    r = []
+    for i in range(len(knn_matrix)):
+        count_majority = 0
+        for j in range(1, k+1):
+            if label[knn_matrix[i][j]] == -1:
+                count_majority += 1
+        ri = count_majority/k
+        r.append(ri)
 
-    # if the minority data set is below the maximum tolerated threshold, generate data.
-    # Beta is the desired balance level parameter.  Beta > 1 means u want more of the imbalanced type, vice versa.
-    G = ms * beta
-
-    # Step 2b, find the K nearest neighbours of each minority class example in euclidean distance.
-    # Find the ratio ri = majority_class in neighbourhood / K
-    Ri = []
-    Minority_per_xi = []
-    for i in range(ms):
-        xi = X[i, :].reshape(1, -1)
-        # Returns indices of the closest neighbours, and return it as a list
-        neighbours = clf.kneighbors(xi, n_neighbors=K, return_distance=False)[0]
-        # Skip classifying itself as one of its own neighbours
-        # neighbours = neighbours[1:]
-
-        # Count how many belongs to the majority class
-        count = 0
-        for value in neighbours:
-            if value > ms:
-                count += 1
-
-        Ri.append(count / K)
-
-        # Find all the minority examples
-        minority = []
-        for value in neighbours:
-            # Shifted back 1 because indices start at 0
-            if value <= ms - 1:
-                minority.append(value)
-
-        Minority_per_xi.append(minority)
-
-    # normalize ri's so their sum equals to 1
+    ## normalize ri's so their sum equals to 1
     Rhat_i = []
-    for ri in Ri:
-        rhat_i = ri / sum(Ri)
+    for r_value in r:
+        rhat_i = r_value / sum(r)
         Rhat_i.append(rhat_i)
-
     assert(sum(Rhat_i) > 0.99)
 
-    # calculate the number of synthetic data examples that will be generated for each minority example
+    ## calculate the number of new synthetic observations 
+    ## that will be generated for each observation
     Gi = []
     for rhat_i in Rhat_i:
-        gi = round(rhat_i * G)
+        gi = round(rhat_i * n_synth)
         Gi.append(int(gi))
 
-    ## generate synthetic examples
-    syn_data = []
-    for i in range(ms):
-        xi = X[i, :].reshape(1, -1)
-        for j in range(Gi[i]):
-            # If the minority list is not empty
-            if Minority_per_xi[i]:
-                index = np.random.choice(Minority_per_xi[i])
-                xzi = X[index, :].reshape(1, -1)
-                si = xi + (xzi - xi) * np.random.uniform(0, 1)
-                syn_data.append(si)
+    ## sort index since knn_matrix is stored in ascending order
+    index.sort()
 
-    # Test the new generated data
-    test = []
-    for values in syn_data:
-        a = clf.predict(values)
-        test.append(a)
+    ## create null matrix to store new synthetic observations
+    synth_matrix = np.ndarray(shape = ((sum(Gi)), d))
 
-    # Build the data matrix
-    data = []
-    for values in syn_data:
-        data.append(values[0])
+    for i in tqdm(range(len(index)), ascii = True, desc = "index"):
+        if Gi[i] > 0:
 
-    # Concatenate the positive labels with the newly made data
-    labels = np.ones([len(data), 1])
-    data = np.concatenate([labels, data], axis=1)
+            num = sum(Gi[:i])
 
-    # Concatenate with old data
-    org_data = np.concatenate([label.reshape(-1, 1), X], axis=1)
-    data = np.concatenate([data, org_data])
+            for j in range(Gi[i]):
+                no_minority = True
+                ## check if there is at least 1 neighbor belongs to minority class
+                for l in range(1, k+1):
+                    if label[knn_matrix[i][l]] == 1:
+                        no_minority = False
+
+                if no_minority == True:
+                    synth_matrix[num + j, 0:(d - 1)] = data.iloc[index[i], 0:(d - 1)]
+
+                if no_minority == False:
+                    neigh = int(np.random.choice(
+                        a=tuple(range(1, k + 1)),
+                        size=1))
+                    ## check if the selected neighbor belongs to minority class
+                    ## and if not, reselect until this neighbor belongs to minority class
+                    while (label[knn_matrix[i][neigh]] != 1):
+                        neigh = int(np.random.choice(
+                            a=tuple(range(1, k + 1)),
+                            size=1))
+
+                    ## conduct synthetic minority over-sampling
+                    ## technique for regression (adasyn)
+                    diffs = data.iloc[knn_matrix[i, neigh], 0:(d - 1)] - data.iloc[index[i], 0:(d - 1)]
+                    synth_matrix[num + j, 0:(d - 1)] = data.iloc[index[i], 0:(d - 1)] + rd.random() * diffs
+
+                    ## randomly assign nominal / categorical features from
+                    ## observed cases and selected neighbors
+                    for x in feat_list_nom:
+                        synth_matrix[num + j, x] = [data.iloc[knn_matrix[i, neigh], x], 
+                        data.iloc[index[i], x]][round(rd.random())]
+
+                    ## generate synthetic y response variable by
+                    ## inverse distance weighted
+                    for z in feat_list_num:
+                        a = abs(data.iloc[index[i], z] - 
+                            synth_matrix[num + j, z]) / feat_ranges[z]
+                        b = abs(data.iloc[knn_matrix[i, neigh], z] - 
+                            synth_matrix[num + j, z]) / feat_ranges[z]
+
+                    if len(feat_list_nom) > 0:
+                        a = a + sum(data.iloc[index[i], feat_list_nom] != 
+                                    synth_matrix[num + j, feat_list_nom])
+                        b = b + sum(data.iloc[knn_matrix[i, neigh], feat_list_nom] != 
+                                    synth_matrix[num + j, feat_list_nom])
+
+                    if a == b:
+                        synth_matrix[num + j,(d - 1)] = data.iloc[index[i], (d - 1)] + data.iloc[
+                                            knn_matrix[i, neigh], (d - 1)]/2
+                    else:
+                        synth_matrix[num + j,(d - 1)] = (b * data.iloc[index[i], (d - 1)] + 
+                                            a * data.iloc[knn_matrix[i, neigh], (d - 1)])/(a + b)
+
+
+    ## create null matrix to store original observations
+    original_matrix = np.ndarray(shape = (len(index), d))
+
+    for i in tqdm(range(len(index)), ascii = True, desc = "ori_index"):
+        original_matrix[i, 0:(d - 1)] = data.iloc[index[i], 0:(d - 1)]
+
+    ## concatenate new generated synthetic observations with original observations
+    final_matrix = np.concatenate((synth_matrix, original_matrix), axis = 0)
+
+    ## convert final matrix to dataframe
+    data_new = pd.DataFrame(final_matrix)
     
-    
-    
-    ## convert synthetic matrix to dataframe
-    data_new = pd.DataFrame(synth_matrix)
-    
+
     ## synthetic data quality check
     if sum(data_new.isnull().sum()) > 0:
         raise ValueError("oops! synthetic data contains missing values")
@@ -309,7 +330,7 @@ def adasyn(X, label, index, beta, ms, K):
                 column = feat_const[j], 
                 value = np.repeat(
                     data_orig.iloc[0, feat_const[j]], 
-                    len(synth_matrix))
+                    len(final_matrix))
             )
     
     ## convert negative values to zero in non-negative features

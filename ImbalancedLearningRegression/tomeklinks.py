@@ -13,7 +13,8 @@ def tomeklinks(
     ## main arguments / inputs
     data,                     ## training set (pandas dataframe)
     y,                        ## response variable y by name (string)
-    samp_method = "balance",  ## undersampling ("balance" or extreme")
+    option = "majority",      ## user's choice of undersampling which class(es). Default is set to "majority"
+                              ## option = "both" if user wants to undersample majority and minority classes
     drop_na_col = True,       ## auto drop columns with nan's (bool)
     drop_na_row = True,       ## auto drop rows with nan's (bool)
     
@@ -92,15 +93,6 @@ def tomeklinks(
         raise ValueError("cannot proceed: y must be an header name (string) \
                found in the dataframe")
     
-    ## quality check for k number specification
-    #if k > len(data):
-    #    raise ValueError("cannot proceed: k is greater than number of \
-    #           observations / rows contained in the dataframe")
-    
-    ## quality check for sampling method
-    if samp_method in ["balance", "extreme"] is False:
-        raise ValueError("samp_method must be either: 'balance' or 'extreme' ")
-    
     ## quality check for relevance threshold parameter
     if rel_thres == None:
         raise ValueError("cannot proceed: relevance threshold required")
@@ -168,80 +160,19 @@ def tomeklinks(
     ## label each observation
     ## if minority class - label 1, if majority class - label -1
     label = []
-    for i in range(0, len(y_sort) - 1):
+    for i in range(0, len(y_sort)):
         if (y_phi[i] >= rel_thres):
             label.append(1)
         else:
             label.append(-1)
 
-    ## determine bin (rare or normal) by bump classification
-    bumps = [0]
-    
-    for i in range(0, len(y_sort) - 1):
-        if ((y_phi[i] >= rel_thres and y_phi[i + 1] < rel_thres) or 
-            (y_phi[i] < rel_thres and y_phi[i + 1] >= rel_thres)):
-                bumps.append(i + 1)
-    
-    bumps.append(n)
-    
-    ## number of bump classes
-    n_bumps = len(bumps) - 1
-    
-    ## determine indicies for each bump classification
-    b_index = {}
-    
-    for i in range(n_bumps):
-        b_index.update({i: y_sort[bumps[i]:bumps[i + 1]]})
-    
-    ## calculate undersampling percentage according to
-    ## bump class and user specified method ("balance" or "extreme")
-    b = round(n / n_bumps)
-    s_perc = []
-    scale = []
-    obj = []
-    
-    if samp_method == "balance":
-        for i in b_index:
-            s_perc.append(b / len(b_index[i]))
-            
-    if samp_method == "extreme":
-        for i in b_index:
-            scale.append(b ** 2 / len(b_index[i]))
-        scale = n_bumps * b / sum(scale)
-        
-        for i in b_index:
-            obj.append(round(b ** 2 / len(b_index[i]) * scale, 2))
-            s_perc.append(round(obj[i] / len(b_index[i]), 1))
-    
-    ## conduct undersampling and store modified training set
-    data_new = pd.DataFrame()
-    
-    for i in range(n_bumps):
-        
-        ## no sampling
-        if s_perc[i] >= 1:
-            
-            ## simply return no sampling
-            ## results to modified training set
-            data_new = pd.concat([data.iloc[b_index[i].index], data_new])
-        
-        ## under-sampling
-        if s_perc[i] < 1:
-            
-            ## removing synthetic observations in training set
-            ## considered 'majority'
-            ## (see 'under_sampling_tomeklinks()' function for details)
-            synth_obs = under_sampling_tomeklinks(
-                data = data,
-                index = list(b_index[i].index),
-                label = label,
-                perc = s_perc[i],
-            )
-            
-            ## concatenate under-sampling
-            ## results to modified training set
-            data_new = pd.concat([synth_obs, data_new])
-    
+    ## call under_sampling_tomeklinks function
+    data_new = under_sampling_tomeklinks(
+        data = data,
+        label = label,
+        option = option
+    )
+
     ## rename feature headers to originals
     data_new.columns = feat_names
     
@@ -254,6 +185,6 @@ def tomeklinks(
     ## restore original data types
     for j in range(d):
         data_new.iloc[:, j] = data_new.iloc[:, j].astype(feat_dtypes_orig[j])
-    
+
     ## return modified training set
     return data_new

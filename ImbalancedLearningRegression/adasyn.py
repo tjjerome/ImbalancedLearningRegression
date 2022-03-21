@@ -95,9 +95,9 @@ def adasyn(
         raise ValueError("cannot proceed: k is greater than number of \
                observations / rows contained in the dataframe")
 
-    ## quality check for perturbation
-    if pert > 1 or pert <= 0:
-        raise ValueError("pert must be a real number number: 0 < R < 1")
+    ### quality check for perturbation
+    #if pert > 1 or pert <= 0:
+    #    raise ValueError("pert must be a real number number: 0 < R < 1")
 
     ## quality check for sampling method
     if samp_method in ["balance", "extreme"] is False:
@@ -170,7 +170,7 @@ def adasyn(
     ## label each observation 
     ## if minority class - label 1, if majority class - label -1
     label = []
-    for i in range(0, len(y_sort) - 1):
+    for i in range(0, len(y_sort)):
         if (y_phi[i] > rel_thres):
             label.append(1)
         else:
@@ -190,13 +190,6 @@ def adasyn(
     ## number of bump classes
     n_bumps = len(bumps) - 1
 
-    ## num_of_bumps is an array that contains the number of samples in each
-    ## minority or majority class
-    num_in_bumps= []
-    
-    for i in range(n_bumps):
-        num = bumps[i+1] - bumps[i]
-        num_in_bumps.append(num)
 
     ## determine indicies for each bump classification
     b_index = {}
@@ -243,11 +236,11 @@ def adasyn(
             ## considered 'minority'
             ## (see 'over_sampling()' function for details)
             synth_obs = over_sampling_adasyn(
-                X = data,
+                data = data,
                 label = label,
-                beta = s_perc[i],
-                ms = num_in_bumps[i],
-                K = k
+                index = list(b_index[i].index),
+                perc = s_perc[i],
+                k = k
             )
 
             ## concatenate over-sampling
