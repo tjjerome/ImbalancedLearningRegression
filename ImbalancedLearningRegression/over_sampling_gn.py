@@ -110,11 +110,14 @@ def over_sampling_gn(
     feat_list_nom = []
     nom_dtypes = ["object", "bool", "datetime64"]
     
+    # Unknown warning, may be handled later
+    pd.options.mode.chained_assignment = None
+
     for j in range(d):
         if data.dtypes[j] in nom_dtypes:
             feat_list_nom.append(j)
-            data.loc[:, data.columns[j]] = pd.Categorical(pd.factorize(
-                data.iloc[:, data.columns[j]])[0])
+            data.iloc[:, j] = pd.Categorical(pd.factorize(
+                data.iloc[:, j])[0])
     
     data = data.apply(pd.to_numeric)
     
