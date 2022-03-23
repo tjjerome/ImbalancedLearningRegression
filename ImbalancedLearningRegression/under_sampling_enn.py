@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import random as rd
 from tqdm import tqdm
+from sklearn.preprocessing import MinMaxScaler
 
 
 ## generate synthetic observations
@@ -138,8 +139,11 @@ def under_sampling_enn(
     for i in index:
         train_X = data_X[:i] + data_X[i+1:]
         train_y = class_y[:i] + class_y[i+1:]
-        estimator.fit(train_X, train_y)
-        predict_y = estimator.predict(data.iloc[i,:(d-1)].values.reshape(1,-1))
+        min_max_scaler = MinMaxScaler()
+        train_X_minmax = min_max_scaler.fit_transform(train_X)
+        estimator.fit(train_X_minmax, train_y)
+        predict_X = min_max_scaler.transform(data.iloc[i,:(d-1)].values.reshape(1,-1))
+        predict_y = estimator.predict(predict_X)
         if predict_y == 0:
             chosen_indices.append(i)
 

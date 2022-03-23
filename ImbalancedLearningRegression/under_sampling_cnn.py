@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import random as rd
 from tqdm import tqdm
+from sklearn.preprocessing import MinMaxScaler
 
 
 ## generate synthetic observations
@@ -143,20 +144,25 @@ def under_sampling_cnn(
     ## initial training
     train_X = [list(data.iloc[i,:(d-1)].values) for i in store_indices]
     train_y = [(0 if i in index else 1) for i in store_indices]
-    estimator.fit(train_X, train_y)
+    min_max_scaler = MinMaxScaler()
+    train_X_minmax = min_max_scaler.fit_transform(train_X)
+    estimator.fit(train_X_minmax, train_y)
 
     ## loop through the majority set
     for i in index:
         if i in store_indices:
             continue
-        predict_y = estimator.predict(data.iloc[i,:(d-1)].values.reshape(1,-1))
+        predict_X = min_max_scaler.transform(data.iloc[i,:(d-1)].values.reshape(1,-1))
+        predict_y = estimator.predict(predict_X)
         if predict_y == 0:
             grabbag_indices.append(i)
         else:
             store_indices.append(i)
             train_X = [list(data.iloc[j,:(d-1)].values) for j in store_indices]
             train_y = [(0 if j in index else 1) for j in store_indices]
-            estimator.fit(train_X, train_y)
+            min_max_scaler = MinMaxScaler()
+            train_X_minmax = min_max_scaler.fit_transform(train_X)
+            estimator.fit(train_X_minmax, train_y)
 
     ## loop through the grabbag until empty or no transfer
     while True:
@@ -167,7 +173,8 @@ def under_sampling_cnn(
         for i in grabbag_indices:
             if i in store_indices:
                 raise ValueError("index exists in both store and grabbag")
-            predict_y = estimator.predict(data.iloc[i,:(d-1)].values.reshape(1,-1))
+            predict_X = min_max_scaler.transform(data.iloc[i,:(d-1)].values.reshape(1,-1))
+            predict_y = estimator.predict(predict_X)
             if predict_y == 0:
                 new_grabbag_indices.append(i)
             else:
@@ -175,7 +182,9 @@ def under_sampling_cnn(
                 store_indices.append(i)
                 train_X = [list(data.iloc[j,:(d-1)].values) for j in store_indices]
                 train_y = [(0 if j in index else 1) for j in store_indices]
-                estimator.fit(train_X, train_y)
+                min_max_scaler = MinMaxScaler()
+                train_X_minmax = min_max_scaler.fit_transform(train_X)
+                estimator.fit(train_X_minmax, train_y)
         grabbag_indices = new_grabbag_indices
         if not has_transfer:
             break

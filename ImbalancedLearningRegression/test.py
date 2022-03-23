@@ -91,36 +91,36 @@ college_cnn = cnn(
     #under_samp=False
 )
 
-# ## load data
-# housing = pandas.read_csv(
+## load data
+housing = pandas.read_csv(
     
-#     ## http://jse.amstat.org/v19n3/decock.pdf
-#     "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv"
-# )
+    ## http://jse.amstat.org/v19n3/decock.pdf
+    "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv"
+)
 
-# ## conduct enn
-# housing_enn = enn(
+## conduct enn
+housing_enn = enn(
     
-#     data = housing, 
-#     y = "SalePrice",
-#     #replace = True,
-#     #under_samp=False
+    data = housing, 
+    y = "SalePrice",
+    #replace = True,
+    #under_samp=False
     
-# )
+)
 
-# ## load data
-# college = pandas.read_csv(
+## load data
+college = pandas.read_csv(
     
-#     ## http://jse.amstat.org/v19n3/decock.pdf
-#     "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/College.csv"
-# )
+    ## http://jse.amstat.org/v19n3/decock.pdf
+    "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/College.csv"
+)
 
-# ## conduct enn
-# college_enn = enn(
+## conduct enn
+college_enn = enn(
     
-#     data = college, 
-#     y = "Grad.Rate",
-#     #replace = True,
-#     #under_samp=False
-# )
+    data = college, 
+    y = "Grad.Rate",
+    #replace = True,
+    #under_samp=False
+)
 
