@@ -3,9 +3,9 @@ import numpy as np
 import pandas as pd
 
 ## load dependencies - internal
-from phi import phi
-from phi_ctrl_pts import phi_ctrl_pts
-from under_sampling_random import under_sampling_random
+from ImbalancedLearningRegression.phi import phi
+from ImbalancedLearningRegression.phi_ctrl_pts import phi_ctrl_pts
+from ImbalancedLearningRegression.under_sampling_random import under_sampling_random
 
 ## under-sampling the majority classes by randomly picking samples with or without replacement
 def random_under(
