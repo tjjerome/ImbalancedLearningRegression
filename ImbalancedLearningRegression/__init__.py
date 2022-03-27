@@ -15,6 +15,7 @@ from ImbalancedLearningRegression.gn import gn
 from ImbalancedLearningRegression.ro import ro
 from ImbalancedLearningRegression.cnn import cnn
 from ImbalancedLearningRegression.enn import enn
+from ImbalancedLearningRegression.smote import smote
 
 
 
@@ -27,5 +28,6 @@ __all__ = [
     "gn",
     "ro",
     "cnn",
-    "enn"
+    "enn",
+    "smote"
 ]
