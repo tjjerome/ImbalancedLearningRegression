@@ -5,7 +5,7 @@ import random as rd
 from tqdm import tqdm
 
 ## load dependencies - internal
-from dist_metrics import euclidean_dist, heom_dist, overlap_dist
+from ImbalancedLearningRegression.dist_metrics import euclidean_dist, heom_dist, overlap_dist
 
 ## adaptively generating minority data samples according to their distributions
 def over_sampling_adasyn(
