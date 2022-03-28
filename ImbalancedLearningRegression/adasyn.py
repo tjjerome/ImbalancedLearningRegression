@@ -3,9 +3,9 @@ import numpy as np
 import pandas as pd
 
 ## load dependencies - internal
-from phi import phi
-from phi_ctrl_pts import phi_ctrl_pts
-from over_sampling_adasyn import over_sampling_adasyn
+from ImbalancedLearningRegression.phi import phi
+from ImbalancedLearningRegression.phi_ctrl_pts import phi_ctrl_pts
+from ImbalancedLearningRegression.over_sampling_adasyn import over_sampling_adasyn
 
 ## adaptive synthetic minority over-sampling technique for regression
 def adasyn(
