@@ -6,9 +6,6 @@ import pandas as pd
 from ImbalancedLearningRegression.phi import phi
 from ImbalancedLearningRegression.phi_ctrl_pts import phi_ctrl_pts
 from ImbalancedLearningRegression.over_sampling_smote import over_sampling_smote
-#from phi import phi
-#from phi_ctrl_pts import phi_ctrl_pts
-#from over_sampling_smote import over_sampling_smote
 
 ## synthetic minority over-sampling technique for regression
 def smote(
@@ -185,7 +182,7 @@ def smote(
     for i in range(n_bumps):
         b_index.update({i: y_sort[bumps[i]:bumps[i + 1]]})
     
-    ## calculate oversampling percentage according to
+    ## calculate over sampling percentage according to
     ## bump class and user specified method ("balance" or "extreme")
     b = round(n / n_bumps)
     s_perc = []
@@ -205,7 +202,7 @@ def smote(
             obj.append(round(b ** 2 / len(b_index[i]) * scale, 2))
             s_perc.append(round(obj[i] / len(b_index[i]), 1))
     
-    ## conduct oversampling and store modified training set
+    ## conduct over sampling and store modified training set
     data_new = pd.DataFrame()
     
     for i in range(n_bumps):
@@ -222,7 +219,7 @@ def smote(
             
             ## generate synthetic observations in training set
             ## considered 'minority'
-            ## (see 'over_sampling()' function for details)
+            ## (see 'over_sampling_smote()' function for details)
             synth_obs = over_sampling_smote(
                 data = data,
                 index = list(b_index[i].index),

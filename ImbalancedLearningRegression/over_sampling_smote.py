@@ -5,7 +5,6 @@ import random as rd
 from tqdm import tqdm
 
 ## load dependencies - internal
-from ImbalancedLearningRegression.box_plot_stats import box_plot_stats
 from ImbalancedLearningRegression.dist_metrics import euclidean_dist, heom_dist, overlap_dist
 
 ## generate synthetic observations
@@ -63,7 +62,7 @@ def over_sampling_smote(
     https://cran.r-project.org/web/packages/UBL/UBL.pdf.
     """
     
-    ## subset original dataframe by bump classification index
+ ## subset original dataframe by bump classification index
     data = data.iloc[index]
     
     ## store dimensions of data subset
@@ -204,13 +203,6 @@ def over_sampling_smote(
     
     knn_matrix = np.array(knn_index)
     
-    ## calculate max distances 
-    ## (half the median of the distances per observation)
-    max_dist = [None] * n
-    
-    for i in range(n):
-        max_dist[i] = box_plot_stats(dist_matrix[i])["stats"][2] / 2
-    
     ## number of new synthetic observations for each rare observation
     x_synth = int(perc - 1)
     
@@ -224,16 +216,13 @@ def over_sampling_smote(
         replace = False, 
         p = None
     )
+
     
     ## create null matrix to store new synthetic observations
     synth_matrix = np.ndarray(shape = ((x_synth * n + n_synth), d))
     
     if x_synth > 0:
         for i in tqdm(range(n), ascii = True, desc = "synth_matrix"):
-            
-            ## determine which cases are 'safe' to interpolate
-            safe_list = np.where(
-                dist_matrix[i, knn_matrix[i]] < max_dist[i])[0]
             
             for j in range(x_synth):
                 
@@ -244,56 +233,51 @@ def over_sampling_smote(
                 
                 ## conduct synthetic minority over-sampling
                 ## technique for regression (smote)
-                if neigh in safe_list:
-                    diffs = data.iloc[
-                        knn_matrix[i, neigh], 0:(d - 1)] - data.iloc[
-                        i, 0:(d - 1)]
-                    synth_matrix[i * x_synth + j, 0:(d - 1)] = data.iloc[
-                        i, 0:(d - 1)] + rd.random() * diffs
-                    
-                    ## randomly assign nominal / categorical features from
-                    ## observed cases and selected neighbors
-                    for x in feat_list_nom:
-                        synth_matrix[i * x_synth + j, x] = [data.iloc[
-                            knn_matrix[i, neigh], x], data.iloc[
-                            i, x]][round(rd.random())]
-                    
-                    ## generate synthetic y response variable by
-                    ## inverse distance weighted
-                    for z in feat_list_num:
-                        a = abs(data.iloc[i, z] - synth_matrix[
-                            i * x_synth + j, z]) / feat_ranges[z]
-                        b = abs(data.iloc[knn_matrix[
-                            i, neigh], z] - synth_matrix[
-                            i * x_synth + j, z]) / feat_ranges[z]
-                    
-                    if len(feat_list_nom) > 0:
-                        a = a + sum(data.iloc[
-                            i, feat_list_nom] != synth_matrix[
-                            i * x_synth + j, feat_list_nom])
-                        b = b + sum(data.iloc[knn_matrix[
-                            i, neigh], feat_list_nom] != synth_matrix[
-                            i * x_synth + j, feat_list_nom])
-                    
-                    if a == b:
-                        synth_matrix[i * x_synth + j, 
-                            (d - 1)] = data.iloc[i, (d - 1)] + data.iloc[
-                            knn_matrix[i, neigh], (d - 1)] / 2
-                    else:
-                        synth_matrix[i * x_synth + j, 
-                            (d - 1)] = (b * data.iloc[
-                            i, (d - 1)] + a * data.iloc[
-                            knn_matrix[i, neigh], (d - 1)]) / (a + b)
+                diffs = data.iloc[
+                    knn_matrix[i, neigh], 0:(d - 1)] - data.iloc[
+                    i, 0:(d - 1)]
+                synth_matrix[i * x_synth + j, 0:(d - 1)] = data.iloc[
+                    i, 0:(d - 1)] + rd.random() * diffs
+                
+                ## randomly assign nominal / categorical features from
+                ## observed cases and selected neighbors
+                for x in feat_list_nom:
+                    synth_matrix[i * x_synth + j, x] = [data.iloc[
+                        knn_matrix[i, neigh], x], data.iloc[
+                        i, x]][round(rd.random())]
+                
+                ## generate synthetic y response variable by
+                ## inverse distance weighted
+                for z in feat_list_num:
+                    a = abs(data.iloc[i, z] - synth_matrix[
+                        i * x_synth + j, z]) / feat_ranges[z]
+                    b = abs(data.iloc[knn_matrix[
+                        i, neigh], z] - synth_matrix[
+                        i * x_synth + j, z]) / feat_ranges[z]
+                
+                if len(feat_list_nom) > 0:
+                    a = a + sum(data.iloc[
+                        i, feat_list_nom] != synth_matrix[
+                        i * x_synth + j, feat_list_nom])
+                    b = b + sum(data.iloc[knn_matrix[
+                        i, neigh], feat_list_nom] != synth_matrix[
+                        i * x_synth + j, feat_list_nom])
+                
+                if a == b:
+                    synth_matrix[i * x_synth + j, 
+                        (d - 1)] = data.iloc[i, (d - 1)] + data.iloc[
+                        knn_matrix[i, neigh], (d - 1)] / 2
+                else:
+                    synth_matrix[i * x_synth + j, 
+                        (d - 1)] = (b * data.iloc[
+                        i, (d - 1)] + a * data.iloc[
+                        knn_matrix[i, neigh], (d - 1)]) / (a + b)
                     
     
     if n_synth > 0:
         count = 0
         
         for i in tqdm(r_index, ascii = True, desc = "r_index"):
-            
-            ## determine which cases are 'safe' to interpolate
-            safe_list = np.where(
-                dist_matrix[i, knn_matrix[i]] < max_dist[i])[0]
             
             ## randomly select a k nearest neighbor
             neigh = int(np.random.choice(
@@ -302,45 +286,44 @@ def over_sampling_smote(
             
             ## conduct synthetic minority over-sampling 
             ## technique for regression (smote)
-            if neigh in safe_list:
-                diffs = data.iloc[
-                    knn_matrix[i, neigh], 0:(d - 1)] - data.iloc[i, 0:(d - 1)]
-                synth_matrix[x_synth * n + count, 0:(d - 1)] = data.iloc[
-                    i, 0:(d - 1)] + rd.random() * diffs
-                
-                ## randomly assign nominal / categorical features from
-                ## observed cases and selected neighbors
-                for x in feat_list_nom:
-                    synth_matrix[x_synth * n + count, x] = [data.iloc[
-                        knn_matrix[i, neigh], x], data.iloc[
-                        i, x]][round(rd.random())]
-                
-                ## generate synthetic y response variable by
-                ## inverse distance weighted
-                for z in feat_list_num:
-                    a = abs(data.iloc[i, z] - synth_matrix[
-                        x_synth * n + count, z]) / feat_ranges[z]
-                    b = abs(data.iloc[knn_matrix[i, neigh], z] - synth_matrix[
-                        x_synth * n + count, z]) / feat_ranges[z]
-                
-                if len(feat_list_nom) > 0:
-                    a = a + sum(data.iloc[i, feat_list_nom] != synth_matrix[
-                        x_synth * n + count, feat_list_nom])
-                    b = b + sum(data.iloc[
-                        knn_matrix[i, neigh], feat_list_nom] != synth_matrix[
-                        x_synth * n + count, feat_list_nom])
-                
-                if a == b:
-                    synth_matrix[x_synth * n + count, (d - 1)] = data.iloc[
-                        i, (d - 1)] + data.iloc[
-                        knn_matrix[i, neigh], (d - 1)] / 2
-                else:
-                    synth_matrix[x_synth * n + count, (d - 1)] = (b * data.iloc[
-                        i, (d - 1)] + a * data.iloc[
-                        knn_matrix[i, neigh], (d - 1)]) / (a + b)
+            diffs = data.iloc[
+                knn_matrix[i, neigh], 0:(d - 1)] - data.iloc[i, 0:(d - 1)]
+            synth_matrix[x_synth * n + count, 0:(d - 1)] = data.iloc[
+                i, 0:(d - 1)] + rd.random() * diffs
             
-            ## close loop counter
-            count = count + 1
+            ## randomly assign nominal / categorical features from
+            ## observed cases and selected neighbors
+            for x in feat_list_nom:
+                synth_matrix[x_synth * n + count, x] = [data.iloc[
+                    knn_matrix[i, neigh], x], data.iloc[
+                    i, x]][round(rd.random())]
+            
+            ## generate synthetic y response variable by
+            ## inverse distance weighted
+            for z in feat_list_num:
+                a = abs(data.iloc[i, z] - synth_matrix[
+                    x_synth * n + count, z]) / feat_ranges[z]
+                b = abs(data.iloc[knn_matrix[i, neigh], z] - synth_matrix[
+                    x_synth * n + count, z]) / feat_ranges[z]
+            
+            if len(feat_list_nom) > 0:
+                a = a + sum(data.iloc[i, feat_list_nom] != synth_matrix[
+                    x_synth * n + count, feat_list_nom])
+                b = b + sum(data.iloc[
+                    knn_matrix[i, neigh], feat_list_nom] != synth_matrix[
+                    x_synth * n + count, feat_list_nom])
+            
+            if a == b:
+                synth_matrix[x_synth * n + count, (d - 1)] = data.iloc[
+                    i, (d - 1)] + data.iloc[
+                    knn_matrix[i, neigh], (d - 1)] / 2
+            else:
+                synth_matrix[x_synth * n + count, (d - 1)] = (b * data.iloc[
+                    i, (d - 1)] + a * data.iloc[
+                    knn_matrix[i, neigh], (d - 1)]) / (a + b)
+        
+        ## close loop counter
+        count = count + 1
     
     ## convert synthetic matrix to dataframe
     data_new = pd.DataFrame(synth_matrix)
