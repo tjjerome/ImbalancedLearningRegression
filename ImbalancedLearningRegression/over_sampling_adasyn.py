@@ -201,7 +201,6 @@ def over_sampling_adasyn(
 
     knn_matrix = np.array(temp)
     
-    
     ## total number of new synthetic observations to generate
     n_synth = int(len(index) * (perc - 1))
 
@@ -249,57 +248,68 @@ def over_sampling_adasyn(
                         no_minority = False
 
                 if no_minority == True:
-                    synth_matrix[num + j, 0:(d - 1)] = data.iloc[index[i], 0:(d - 1)]
+                    synth_matrix[num + j, 0:d] = data.iloc[
+                        index[i], 0:d]
 
                 if no_minority == False:
                     neigh = int(np.random.choice(
-                        a=tuple(range(1, k + 1)),
-                        size=1))
+                        a = tuple(range(1, k + 1)),
+                        size = 1))
                     ## check if the selected neighbor belongs to minority class
                     ## and if not, reselect until this neighbor belongs to minority class
                     while (label[knn_matrix[i][neigh]] != 1):
                         neigh = int(np.random.choice(
-                            a=tuple(range(1, k + 1)),
-                            size=1))
+                            a = tuple(range(1, k + 1)),
+                            size = 1))
 
                     ## conduct synthetic minority over-sampling
                     ## technique for regression (adasyn)
-                    diffs = data.iloc[knn_matrix[i, neigh], 0:(d - 1)] - data.iloc[index[i], 0:(d - 1)]
-                    synth_matrix[num + j, 0:(d - 1)] = data.iloc[index[i], 0:(d - 1)] + rd.random() * diffs
-
+                    diffs = data.iloc[
+                        knn_matrix[i, neigh], 0:(d - 1)] - data.iloc[
+                        index[i], 0:(d - 1)]
+                    synth_matrix[num + j, 0:(d - 1)] = data.iloc[
+                        index[i], 0:(d - 1)] + rd.random() * diffs
+                    
                     ## randomly assign nominal / categorical features from
                     ## observed cases and selected neighbors
                     for x in feat_list_nom:
-                        synth_matrix[num + j, x] = [data.iloc[knn_matrix[i, neigh], x], 
-                        data.iloc[index[i], x]][round(rd.random())]
-
+                        synth_matrix[num + j, x] = [data.iloc[
+                            knn_matrix[i, neigh], x], data.iloc[
+                            index[i], x]][round(rd.random())]
+                    
                     ## generate synthetic y response variable by
                     ## inverse distance weighted
                     for z in feat_list_num:
-                        a = abs(data.iloc[index[i], z] - 
-                            synth_matrix[num + j, z]) / feat_ranges[z]
-                        b = abs(data.iloc[knn_matrix[i, neigh], z] - 
-                            synth_matrix[num + j, z]) / feat_ranges[z]
-
+                        a = abs(data.iloc[index[i], z] - synth_matrix[
+                            num + j, z]) / feat_ranges[z]
+                        b = abs(data.iloc[knn_matrix[
+                            i, neigh], z] - synth_matrix[
+                            num + j, z]) / feat_ranges[z]
+                    
                     if len(feat_list_nom) > 0:
-                        a = a + sum(data.iloc[index[i], feat_list_nom] != 
-                                    synth_matrix[num + j, feat_list_nom])
-                        b = b + sum(data.iloc[knn_matrix[i, neigh], feat_list_nom] != 
-                                    synth_matrix[num + j, feat_list_nom])
-
+                        a = a + sum(data.iloc[
+                            index[i], feat_list_nom] != synth_matrix[
+                            num + j, feat_list_nom])
+                        b = b + sum(data.iloc[knn_matrix[
+                            i, neigh], feat_list_nom] != synth_matrix[
+                            num + j, feat_list_nom])
+                    
                     if a == b:
-                        synth_matrix[num + j,(d - 1)] = data.iloc[index[i], (d - 1)] + data.iloc[
-                                            knn_matrix[i, neigh], (d - 1)]/2
+                        synth_matrix[num + j, 
+                            (d - 1)] = data.iloc[index[i], (d - 1)] + data.iloc[
+                            knn_matrix[i, neigh], (d - 1)] / 2
                     else:
-                        synth_matrix[num + j,(d - 1)] = (b * data.iloc[index[i], (d - 1)] + 
-                                            a * data.iloc[knn_matrix[i, neigh], (d - 1)])/(a + b)
+                        synth_matrix[num + j, 
+                            (d - 1)] = (b * data.iloc[
+                            index[i], (d - 1)] + a * data.iloc[
+                            knn_matrix[i, neigh], (d - 1)]) / (a + b)
 
 
     ## create null matrix to store original observations
     original_matrix = np.ndarray(shape = (len(index), d))
 
     for i in tqdm(range(len(index)), ascii = True, desc = "ori_index"):
-        original_matrix[i, 0:(d - 1)] = data.iloc[index[i], 0:(d - 1)]
+        original_matrix[i, 0:d] = data.iloc[index[i], 0:d]
 
     ## concatenate new generated synthetic observations with original observations
     final_matrix = np.concatenate((synth_matrix, original_matrix), axis = 0)
