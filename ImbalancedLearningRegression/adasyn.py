@@ -74,101 +74,97 @@ def adasyn(
     ## pre-process missing values
     if bool(drop_na_col) == True:
         data = data.dropna(axis = 1)  ## drop columns with nan's
-
+    
     if bool(drop_na_row) == True:
         data = data.dropna(axis = 0)  ## drop rows with nan's
-
+    
     ## quality check for missing values in dataframe
     if data.isnull().values.any():
         raise ValueError("cannot proceed: data cannot contain NaN values")
-
+    
     ## quality check for y
     if isinstance(y, str) is False:
         raise ValueError("cannot proceed: y must be a string")
-
+    
     if y in data.columns.values is False:
         raise ValueError("cannot proceed: y must be an header name (string) \
                found in the dataframe")
-
+    
     ## quality check for k number specification
     if k > len(data):
         raise ValueError("cannot proceed: k is greater than number of \
                observations / rows contained in the dataframe")
-
-    ### quality check for perturbation
-    #if pert > 1 or pert <= 0:
-    #    raise ValueError("pert must be a real number number: 0 < R < 1")
-
+    
     ## quality check for sampling method
     if samp_method in ["balance", "extreme"] is False:
         raise ValueError("samp_method must be either: 'balance' or 'extreme' ")
-
+    
     ## quality check for relevance threshold parameter
     if rel_thres == None:
         raise ValueError("cannot proceed: relevance threshold required")
-
+    
     if rel_thres > 1 or rel_thres <= 0:
         raise ValueError("rel_thres must be a real number number: 0 < R < 1")
-
+    
     ## store data dimensions
     n = len(data)
     d = len(data.columns)
-
+    
     ## store original data types
     feat_dtypes_orig = [None] * d
-
+    
     for j in range(d):
         feat_dtypes_orig[j] = data.iloc[:, j].dtype
-
+    
     ## determine column position for response variable y
     y_col = data.columns.get_loc(y)
-
+    
     ## move response variable y to last column
     if y_col < d - 1:
         cols = list(range(d))
         cols[y_col], cols[d - 1] = cols[d - 1], cols[y_col]
         data = data[data.columns[cols]]
-
+    
     ## store original feature headers and
     ## encode feature headers to index position
     feat_names = list(data.columns)
     data.columns = range(d)
-
+    
     ## sort response variable y by ascending order
     y = pd.DataFrame(data[d - 1])
     y_sort = y.sort_values(by = d - 1)
     y_sort = y_sort[d - 1]
-
+    
     ## -------------------------------- phi --------------------------------- ##
     ## calculate parameters for phi relevance function
     ## (see 'phi_ctrl_pts()' function for details)
     phi_params = phi_ctrl_pts(
-
+        
         y = y_sort,                ## y (ascending)
-        method = rel_method,       ## defaults "auto"
+        method = rel_method,       ## defaults "auto" 
         xtrm_type = rel_xtrm_type, ## defaults "both"
         coef = rel_coef,           ## defaults 1.5
         ctrl_pts = rel_ctrl_pts_rg ## user spec
     )
-
+    
     ## calculate the phi relevance function
     ## (see 'phi()' function for details)
     y_phi = phi(
-
+        
         y = y_sort,                ## y (ascending)
         ctrl_pts = phi_params      ## from 'phi_ctrl_pts()'
     )
-
+    
     ## phi relevance quality check
     if all(i == 0 for i in y_phi):
         raise ValueError("redefine phi relevance function: all points are 1")
-
+    
     if all(i == 1 for i in y_phi):
         raise ValueError("redefine phi relevance function: all points are 0")
     ## ---------------------------------------------------------------------- ##
 
     ## label each observation 
-    ## if minority class - label 1, if majority class - label -1
+    ## if minority class - label = 1, if majority class - label = -1
     label = []
     for i in range(0, len(y_sort)):
         if (y_phi[i] > rel_thres):
@@ -176,55 +172,53 @@ def adasyn(
         else:
             label.append(-1)
 
-
     ## determine bin (rare or normal) by bump classification
     bumps = [0]
-
+    
     for i in range(0, len(y_sort) - 1):
-        if ((y_phi[i] >= rel_thres and y_phi[i + 1] < rel_thres) or
+        if ((y_phi[i] >= rel_thres and y_phi[i + 1] < rel_thres) or 
             (y_phi[i] < rel_thres and y_phi[i + 1] >= rel_thres)):
                 bumps.append(i + 1)
-
+    
     bumps.append(n)
-
+    
     ## number of bump classes
     n_bumps = len(bumps) - 1
-
-
+    
     ## determine indicies for each bump classification
     b_index = {}
-
+    
     for i in range(n_bumps):
         b_index.update({i: y_sort[bumps[i]:bumps[i + 1]]})
-
-    ## calculate oversampling percentage according to
+    
+    ## calculate over sampling percentage according to
     ## bump class and user specified method ("balance" or "extreme")
     b = round(n / n_bumps)
     s_perc = []
     scale = []
     obj = []
-
+    
     if samp_method == "balance":
         for i in b_index:
             s_perc.append(b / len(b_index[i]))
-
+            
     if samp_method == "extreme":
         for i in b_index:
             scale.append(b ** 2 / len(b_index[i]))
         scale = n_bumps * b / sum(scale)
-
+        
         for i in b_index:
             obj.append(round(b ** 2 / len(b_index[i]) * scale, 2))
             s_perc.append(round(obj[i] / len(b_index[i]), 1))
-
-    ## conduct oversampling and store modified training set
+    
+    ## conduct over sampling and store modified training set
     data_new = pd.DataFrame()
 
     for i in range(n_bumps):
-
+        
         ## no sampling
-        if s_perc[i] <= 1 :
-
+        if s_perc[i] <= 1:
+            
             ## simply return no sampling
             ## results to modified training set
             data_new = pd.concat([data.iloc[b_index[i].index], data_new])
@@ -234,7 +228,7 @@ def adasyn(
 
             ## generate synthetic observations in training set
             ## considered 'minority'
-            ## (see 'over_sampling()' function for details)
+            ## (see 'over_sampling_adasyn()' function for details)
             synth_obs = over_sampling_adasyn(
                 data = data,
                 label = label,
@@ -249,16 +243,16 @@ def adasyn(
 
     ## rename feature headers to originals
     data_new.columns = feat_names
-
+    
     ## restore response variable y to original position
     if y_col < d - 1:
         cols = list(range(d))
         cols[y_col], cols[d - 1] = cols[d - 1], cols[y_col]
         data_new = data_new[data_new.columns[cols]]
-
+    
     ## restore original data types
     for j in range(d):
         data_new.iloc[:, j] = data_new.iloc[:, j].astype(feat_dtypes_orig[j])
-
+    
     ## return modified training set
     return data_new
