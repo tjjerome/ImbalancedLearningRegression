@@ -4,3 +4,9 @@ ImbalancedLearn-Regression-0.0.0: 2022-01-30
 - Define basic package dependencies
 - Prepare skeleton of pypi package to push to github
 
+ImbalancedLearn-Regression-0.0.1: 2022-04-25
+==========================
+- Implemented the initial eight sampling methods
+- RO, GN, CNN, ENN, SMOTE, ADASYN, RU, TomekLinks
+- Published the package to PyPI
+
