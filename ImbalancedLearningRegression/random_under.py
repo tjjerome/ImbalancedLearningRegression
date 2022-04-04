@@ -107,9 +107,11 @@ def random_under(
     ## quality check for sampling percentage
     if manual_perc:
         if perc_o == -1:
-            raise ValueError("cannot proceed: require percentage of over-sampling if manual_perc == True")
+            raise ValueError("cannot proceed: require percentage of under-sampling if manual_perc == True")
         if perc_o <= 0:
-            raise ValueError("percentage of over-sampling must be a positve real number")
+            raise ValueError("percentage of under-sampling must be a positve real number")
+        if perc_o > 1:
+            raise ValueError("percentage of under-sampling must be less than 1")
     
     ## quality check for relevance threshold parameter
     if rel_thres == None:
@@ -194,7 +196,7 @@ def random_under(
     for i in range(n_bumps):
         b_index.update({i: y_sort[bumps[i]:bumps[i + 1]]})
     
-    ## calculate over / under sampling percentage according to
+    ## calculate under sampling percentage according to
     ## bump class and user specified method ("balance" or "extreme")
     b = round(n / n_bumps)
     s_perc = []
@@ -214,7 +216,7 @@ def random_under(
             obj.append(round(b ** 2 / len(b_index[i]) * scale, 2))
             s_perc.append(round(obj[i] / len(b_index[i]), 1))
     
-    ## conduct over / under sampling and store modified training set
+    ## conduct under sampling and store modified training set
     data_new = pd.DataFrame()
     
     for i in range(n_bumps):
