@@ -13,7 +13,7 @@ def over_sampling_smote(
     ## arguments / inputs
     data,       ## training set
     index,      ## index of input data
-    perc,       ## oversampling
+    perc,       ## oversampling percentage
     k           ## num of neighs for over-sampling
     
     ):
@@ -60,6 +60,11 @@ def over_sampling_smote(
     Branco, P., Ribeiro, R., Torgo, L. (2017). 
     Package 'UBL'. The Comprehensive R Archive Network (CRAN).
     https://cran.r-project.org/web/packages/UBL/UBL.pdf.
+    
+    N. V. Chawla, K. W. Bowyer, L. O.Hall, W. P. Kegelmeyer, 
+    “SMOTE: synthetic minority over-sampling technique,” 
+    Journal of artificial intelligence research, 321-357, 2002.
+    https://arxiv.org/pdf/1106.1813.pdf.
     """
     
     ## subset original dataframe by bump classification index
