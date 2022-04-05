@@ -69,6 +69,11 @@ def smote(
     SMOGN: A Pre-Processing Approach for Imbalanced Regression.
     Proceedings of Machine Learning Research, 74:36-50.
     http://proceedings.mlr.press/v74/branco17a/branco17a.pdf.
+    
+    N. V. Chawla, K. W. Bowyer, L. O.Hall, W. P. Kegelmeyer, 
+    “SMOTE: synthetic minority over-sampling technique,” 
+    Journal of artificial intelligence research, 321-357, 2002.
+    https://arxiv.org/pdf/1106.1813.pdf.
     """
     
     ## pre-process missing values
