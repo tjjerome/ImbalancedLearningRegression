@@ -5,7 +5,6 @@ import random as rd
 from tqdm import tqdm
 
 ## load dependencies - internal
-from ImbalancedLearningRegression.box_plot_stats import box_plot_stats
 from ImbalancedLearningRegression.dist_metrics import euclidean_dist, heom_dist, overlap_dist
 
 ## under-sampling by removing Tomek’s links
@@ -228,7 +227,7 @@ def under_sampling_tomeklinks(
     if option == "minority" or option == "not_majority":
         remove_index = tomeklink_minority
     
-    if option == "both" or "all":
+    if option == "both" or option == "all":
         remove_index = tomeklink_majority + tomeklink_minority
 
 
@@ -245,6 +244,7 @@ def under_sampling_tomeklinks(
         for attr in range(d):
             synth_matrix[count, attr] = (data.iloc[i, attr])
         count = count + 1
+        
 
     ## convert synthetic matrix to dataframe
     data_new = pd.DataFrame(synth_matrix)
