@@ -13,7 +13,7 @@ def tomeklinks(
     ## main arguments / inputs
     data,                     ## training set (pandas dataframe)
     y,                        ## response variable y by name (string)
-    option = "both",          ## user's choice of undersampling which class(es). Default is set to "majority"
+    option = "majority",          ## user's choice of undersampling which class(es). Default is set to "majority"
                               ## option = "both" if user wants to undersample majority and minority classes
     drop_na_col = True,       ## auto drop columns with nan's (bool)
     drop_na_row = True,       ## auto drop rows with nan's (bool)
