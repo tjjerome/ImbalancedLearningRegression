@@ -4,13 +4,12 @@ import seaborn
 import matplotlib.pyplot as plt
 import ssl
 
-from smote import smote
+from ImbalancedLearningRegression.smote import smote
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
 college = pd.read_csv(
-        ## http://jse.amstat.org/v19n3/decock.pdf
-    "https://raw.githubusercontent.com/paobranco/ImbalancedLearnRegression/master/data/College.csv"
+    "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/College.csv"
 )
 
 college_smote = smote(
