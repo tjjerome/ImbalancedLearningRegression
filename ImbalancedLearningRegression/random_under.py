@@ -18,7 +18,7 @@ def random_under(
     drop_na_row = True,       ## auto drop rows with nan's (bool)
     replacement = False,      ## sampling replacement (bool)
     manual_perc = False,      ## user defines percentage of under-sampling # added
-    perc_o = -1,              ## percentage of under-sampling  # added
+    perc_u = -1,              ## percentage of under-sampling  # added
     
     ## phi relevance function arguments / inputs
     rel_thres = 0.5,          ## relevance threshold considered rare (pos real)
@@ -106,11 +106,11 @@ def random_under(
     # added
     ## quality check for sampling percentage
     if manual_perc:
-        if perc_o == -1:
+        if perc_u == -1:
             raise ValueError("cannot proceed: require percentage of under-sampling if manual_perc == True")
-        if perc_o <= 0:
+        if perc_u <= 0:
             raise ValueError("percentage of under-sampling must be a positve real number")
-        if perc_o > 1:
+        if perc_u > 1:
             raise ValueError("percentage of under-sampling must be less than 1")
     
     ## quality check for relevance threshold parameter
@@ -237,7 +237,7 @@ def random_under(
             synth_obs = under_sampling_random(
                 data = data,
                 index = list(b_index[i].index),
-                perc = s_perc[i] if not manual_perc else perc_o + 1,  # modified
+                perc = s_perc[i] if not manual_perc else perc_u,  # modified
                 replacement = replacement  # added
             )
             
