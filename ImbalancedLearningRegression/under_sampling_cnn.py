@@ -6,7 +6,7 @@ from tqdm import tqdm
 from sklearn.preprocessing import MinMaxScaler
 
 
-## generate synthetic observations
+## condense normal observations
 def under_sampling_cnn(
     
     ## arguments / inputs

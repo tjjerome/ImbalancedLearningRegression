@@ -11,7 +11,7 @@ from ImbalancedLearningRegression.under_sampling_cnn import under_sampling_cnn
 # from phi_ctrl_pts import phi_ctrl_pts
 # from under_sampling_cnn import under_sampling_cnn
 
-## synthetic minority over-sampling technique for regression with gaussian noise 
+## majority under-sampling technique for regression with condensed nearest neighbor 
 def cnn(
     
     ## main arguments / inputs

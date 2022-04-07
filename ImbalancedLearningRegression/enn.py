@@ -11,7 +11,7 @@ from ImbalancedLearningRegression.under_sampling_enn import under_sampling_enn
 # from phi_ctrl_pts import phi_ctrl_pts
 # from under_sampling_enn import under_sampling_enn
 
-## synthetic minority over-sampling technique for regression with gaussian noise 
+## majority under-sampling technique for regression with edited nearest neighbor
 def enn(
     
     ## main arguments / inputs
