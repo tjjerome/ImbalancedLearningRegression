@@ -31,8 +31,11 @@ def cnn(
 
     ## KNeighborsClassifier attribute
     k = 1,                    ## the number of neighbors used for K-NN
-    n_jobs = 1                ## the number of parallel jobs to run for neighbors search
+    n_jobs = 1,               ## the number of parallel jobs to run for neighbors search
 
+    ## user-defined KNeighborsClassifier
+    k_neighbors_classifier = None  ## user-defined estimator allowing more non-default attributes
+                                   ## will ignore k and n_jobs values if not None
     
     ):
     
@@ -154,7 +157,7 @@ def cnn(
     y_sort = y_sort[d - 1]
 
     ## k-NN classifier
-    estimator = KNeighborsClassifier(n_neighbors = k, n_jobs = n_jobs)
+    estimator = KNeighborsClassifier(n_neighbors = k, n_jobs = n_jobs) if k_neighbors_classifier == None else k_neighbors_classifier
     
     ## -------------------------------- phi --------------------------------- ##
     ## calculate parameters for phi relevance function
