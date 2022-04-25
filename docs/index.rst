@@ -21,3 +21,7 @@ Indices and tables
 
 .. automodule:: ImbalancedLearningRegression.ro
    :members:
+
+.. currentmodule:: ImbalancedLearningRegression.ro
+.. autofuntion:: ro
+
