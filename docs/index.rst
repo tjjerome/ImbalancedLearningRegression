@@ -1,5 +1,5 @@
 .. ImbalancedLearningRegression documentation master file, created by
-   sphinx-quickstart on Mon Apr 25 15:56:30 2022.
+   sphinx-quickstart on Mon Apr 25 19:14:20 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -20,4 +20,4 @@ Indices and tables
 * :ref:`search`
 
 .. automodule:: ImbalancedLearningRegression.ro
-    :members:
+   :members:
