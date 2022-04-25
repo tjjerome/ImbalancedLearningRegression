@@ -18,10 +18,10 @@ red_wine = pandas.read_csv(
     "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/red_wine.csv"
 )
 
-## avocado
-avocado = pandas.read_csv(
-    "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/avocado.csv"
-)
+# ## avocado
+# avocado = pandas.read_csv(
+#     "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/avocado.csv"
+# )
 
 ## insurance
 insurance = pandas.read_csv(
@@ -43,10 +43,10 @@ red_wine_basic = ro(
     y = "quality"
 )
 
-avocado_basic = ro(
-    data = avocado,
-    y = "AveragePrice"
-)
+# avocado_basic = ro(
+#     data = avocado,
+#     y = "AveragePrice"
+# )
 
 insurance_basic = ro(
     data = insurance,
@@ -71,11 +71,11 @@ red_wine_extreme = ro(
     samp_method = "extreme"
 )
 
-avocado_extreme = ro(
-    data = avocado,
-    y = "AveragePrice",
-    samp_method = "extreme"
-)
+# avocado_extreme = ro(
+#     data = avocado,
+#     y = "AveragePrice",
+#     samp_method = "extreme"
+# )
 
 insurance_extreme = ro(
     data = insurance,
@@ -101,11 +101,11 @@ red_wine_replace = ro(
     replace = False
 )
 
-avocado_replace = ro(
-    data = avocado,
-    y = "AveragePrice",
-    replace = False
-)
+# avocado_replace = ro(
+#     data = avocado,
+#     y = "AveragePrice",
+#     replace = False
+# )
 
 insurance_replace = ro(
     data = insurance,
@@ -131,11 +131,11 @@ red_wine_thres = ro(
     rel_thres = 0.6
 )
 
-avocado_thres = ro(
-    data = avocado,
-    y = "AveragePrice",
-    rel_thres = 0.3
-)
+# avocado_thres = ro(
+#     data = avocado,
+#     y = "AveragePrice",
+#     rel_thres = 0.3
+# )
 
 insurance_thres = ro(
     data = insurance,
@@ -167,13 +167,13 @@ red_wine_combined = ro(
     rel_thres = 0.6
 )
 
-avocado_combined = ro(
-    data = avocado,
-    y = "AveragePrice",
-    samp_method = "extreme", 
-    replace = False,
-    rel_thres = 0.3
-)
+# avocado_combined = ro(
+#     data = avocado,
+#     y = "AveragePrice",
+#     samp_method = "extreme", 
+#     replace = False,
+#     rel_thres = 0.3
+# )
 
 insurance_combined = ro(
     data = insurance,
