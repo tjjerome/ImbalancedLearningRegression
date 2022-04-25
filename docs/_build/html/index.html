@@ -43,6 +43,56 @@
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
+<span class="target" id="module-ImbalancedLearningRegression.ro"></span><dl class="py function">
+<dt class="sig sig-object py" id="ImbalancedLearningRegression.ro.ro">
+<span class="sig-prename descclassname"><span class="pre">ImbalancedLearningRegression.ro.</span></span><span class="sig-name descname"><span class="pre">ro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samp_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'balance'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_na_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_na_row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manual_perc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perc_o</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_xtrm_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'both'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_ctrl_pts_rg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ImbalancedLearningRegression/ro.html#ro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ImbalancedLearningRegression.ro.ro" title="Permalink to this definition">¶</a></dt>
+<dd><p>the main function, designed to help solve the problem of imbalanced data 
+for regression; RO applies over-sampling of the minority class (rare 
+values in a normal distribution of y, typically found at the tails)</p>
+<p>procedure begins with a series of pre-processing steps, and to ensure no 
+missing values (nan’s), sorts the values in the response variable y by
+ascending order, and fits a function ‘phi’ to y, corresponding phi values 
+(between 0 and 1) are generated for each value in y, the phi values are 
+then used to determine if an observation is either normal or rare by the 
+threshold specified in the argument ‘rel_thres’</p>
+<p>normal observations are placed into a majority class subset (normal bin), 
+while rare observations are placed in a seperate minority class subset 
+(rare bin) where they’re over-sampled</p>
+<p>over-sampling is applied by a random sampling from the rare bin based 
+on a calculated percentage control by the argument ‘samp_method’, if the 
+specified input of ‘samp_method’ is “balance”, less over-sampling is 
+conducted, and if “extreme” is specified more over-sampling is conducted</p>
+<p>over-sampling is applied by RO, which randomly duplicate samples from the 
+original samples</p>
+<p>procedure concludes by post-processing and returns a modified pandas data
+frame containing over-sampled (synthetic) observations, the distribution 
+of the response variable y should more appropriately reflect the minority 
+class areas of interest in y that are under-represented in the original 
+training set</p>
+<p>note that users can also decide the percentage of over-sampling on each 
+bin by setting manual_perc to True and assigning value to perc_o, this 
+value will directly replace the calculated percentage of each relavant bin</p>
+<p>note also that if the percentage of over-sampling is greater than 1 
+and replace = False, we simply duplicate the original samples i times, 
+where i is the integer part of the percentage of over-sampling, and 
+randomly sample d * n data from the original samples, where d is the 
+decimal part of the percentage of over-sampling and n is the number of 
+the original samples; if replace = True, we randomly sample (i + d) * n 
+data from the original samples with the possibility of reusing the 
+same sample</p>
+<p>ref:</p>
+<p>Branco, P., Torgo, L., Ribeiro, R. (2017).
+SMOGN: A Pre-Processing Approach for Imbalanced Regression.
+Proceedings of Machine Learning Research, 74:36-50.
+<a class="reference external" href="http://proceedings.mlr.press/v74/branco17a/branco17a.pdf">http://proceedings.mlr.press/v74/branco17a/branco17a.pdf</a>.</p>
+<p>Branco, P., Torgo, L., &amp; Ribeiro, R. P. (2019). 
+Pre-processing approaches for imbalanced distributions in regression. 
+Neurocomputing, 343, 76-99. 
+<a class="reference external" href="https://www.sciencedirect.com/science/article/abs/pii/S0925231219301638">https://www.sciencedirect.com/science/article/abs/pii/S0925231219301638</a></p>
+<p>Kunz, N., (2019). SMOGN. 
+<a class="reference external" href="https://github.com/nickkunz/smogn">https://github.com/nickkunz/smogn</a></p>
+</dd></dl>
+
 </section>
 
 
