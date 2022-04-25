@@ -32,14 +32,7 @@ def over_sampling_smote(
     for numeric only data, heom distance for both numeric and nominal data, and 
     hamming distance for nominal only data) and determine k nearest neighbors
     
-    3) over-sampling: selects between two techniques, either synthetic minority 
-    over-sampling technique for regression 'smote'
-    
-    'smote' is selected when the distance between a given observation and a 
-    selected nearest neighbor is within the maximum threshold (half the median 
-    distance of k nearest neighbors)
-    
-    'smote' only applies to numeric / continuous features, 
+    3) over-sampling: 'smote' only applies to numeric / continuous features, 
     for nominal / categorical features, synthetic values are generated at random 
     from sampling observed values found within the same feature
     
@@ -61,10 +54,10 @@ def over_sampling_smote(
     Package 'UBL'. The Comprehensive R Archive Network (CRAN).
     https://cran.r-project.org/web/packages/UBL/UBL.pdf.
     
-    N. V. Chawla, K. W. Bowyer, L. O.Hall, W. P. Kegelmeyer, 
-    “SMOTE: synthetic minority over-sampling technique,” 
-    Journal of artificial intelligence research, 321-357, 2002.
-    https://arxiv.org/pdf/1106.1813.pdf.
+    Torgo, L., Ribeiro, R. P., Pfahringer, B., & Branco, P. (2013, September). 
+    Smote for regression. In Portuguese conference on artificial intelligence (pp. 378-389). 
+    Springer, Berlin, Heidelberg. 
+    https://researchcommons.waikato.ac.nz/bitstream/handle/10289/8518/smoteR.pdf?sequence=23
     """
     
     ## subset original dataframe by bump classification index
