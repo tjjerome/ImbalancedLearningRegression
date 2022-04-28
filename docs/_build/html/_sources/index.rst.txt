@@ -14,14 +14,18 @@ Layout
    :caption: Over-sampling Techniques
 
    ro
+   smote
    gn
+   adasyn
 
 .. toctree::
    :maxdepth: 2
    :caption: Under-sampling Techniques
 
+   ru
    cnn
-   enn   
+   tomeklinks
+   enn
 
 .. toctree::
    :maxdepth: 2

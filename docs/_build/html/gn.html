@@ -40,7 +40,11 @@
               <p class="caption" role="heading"><span class="caption-text">Over-sampling Techniques</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ro.html">Random Over-sampling</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction of Gaussian Noise</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction of Gaussian Noise</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Under-sampling Techniques</span></p>
 <ul>
@@ -78,6 +82,56 @@
              
   <section id="introduction-of-gaussian-noise">
 <h1>Introduction of Gaussian Noise<a class="headerlink" href="#introduction-of-gaussian-noise" title="Permalink to this headline"></a></h1>
+<p>Introduction of Gaussian Noise is an over-sampling method that synthesizes new samples by introducing small perturbations on the numeric attributes and target variables of the seed samples.
+This over-sampling method has an optional choice of random under-sampling.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="gn">
+<span class="sig-name descname"><span class="pre">gn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.02</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samp_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'balance'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">under_samp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_na_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_na_row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manual_perc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perc_u</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perc_o</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_xtrm_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'both'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_ctrl_pts_rg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gn" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="glossary.html#term-Pandas-dataframe"><span class="xref std std-term">Pandas dataframe</span></a>) – Pandas dataframe, the dataset to re-sample.</p></li>
+<li><p><strong>y</strong> (<em>str</em>) – Column name of the target variable in the Pandas dataframe.</p></li>
+<li><p><strong>pert</strong> (<em>float</em>) – Perturbation amplitude. Must be a real number between 0 and 1 (0, 1].</p></li>
+<li><p><strong>samp_method</strong> (<em>str</em>) – Method to determine re-sampling percentage. Either <code class="docutils literal notranslate"><span class="pre">balance</span></code> or <code class="docutils literal notranslate"><span class="pre">extreme</span></code>.</p></li>
+<li><p><strong>under_samp</strong> (<em>bool</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, random under-sampling will be conducted on the normal bins.</p></li>
+<li><p><strong>drop_na_col</strong> (<em>bool</em>) – Determine whether or not automatically drop columns containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.</p></li>
+<li><p><strong>drop_na_row</strong> (<em>bool</em>) – Determine whether or not automatically drop rows containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.</p></li>
+<li><p><strong>replace</strong> (<em>bool</em>) – For decimal part of the over-sampling percentage, a subset of original dataset will be choosed as base samples to introduce noise, the selection can be with or without replacement.</p></li>
+<li><p><strong>manual_perc</strong> (<em>bool</em>) – Keep the same percentage of re-sampling for all bins. If <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">perc_o</span></code> is required to be a positive real number.</p></li>
+<li><p><strong>perc_u</strong> (<em>float</em>) – User-specified fixed percentage of under-sampling for all bins. Must be a real number between 0 and 1 (0, 1) if <code class="docutils literal notranslate"><span class="pre">manual_perc</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p></li>
+<li><p><strong>perc_o</strong> (<em>float</em>) – User-specified fixed percentage of over-sampling for all bins. Must be a positive real number if <code class="docutils literal notranslate"><span class="pre">manual_perc</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p></li>
+<li><p><strong>rel_thres</strong> (<em>float</em>) – Relevance threshold, above which a sample is considered rare. Must be a real number between 0 and 1 (0, 1].</p></li>
+<li><p><strong>rel_method</strong> (<em>str</em>) – Method to define the relevance function, either <code class="docutils literal notranslate"><span class="pre">auto</span></code> or <code class="docutils literal notranslate"><span class="pre">manual</span></code>. If <code class="docutils literal notranslate"><span class="pre">manual</span></code>, must specify <code class="docutils literal notranslate"><span class="pre">rel_ctrl_pts_rg</span></code>.</p></li>
+<li><p><strong>rel_xtrm_type</strong> (<em>str</em>) – Distribution focus, <code class="docutils literal notranslate"><span class="pre">high</span></code>, <code class="docutils literal notranslate"><span class="pre">low</span></code>, or <code class="docutils literal notranslate"><span class="pre">both</span></code>. If <code class="docutils literal notranslate"><span class="pre">high</span></code>, rare cases having small y values will be considerd as normal, and vise versa.</p></li>
+<li><p><strong>rel_coef</strong> (<em>float</em>) – Coefficient for box plot.</p></li>
+<li><p><strong>rel_ctrl_pts_rg</strong> (<a class="reference internal" href="glossary.html#term-2D-array"><span class="xref std std-term">2D array</span></a>) – Manually specify the regions of interest. See <a class="reference external" href="https://github.com/nickkunz/smogn/blob/master/examples/smogn_example_3_adv.ipynb">SMOGN advanced example</a> for more details.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Re-sampled dataset.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="glossary.html#term-Pandas-dataframe"><span class="xref std std-term">Pandas dataframe</span></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If an input attribute has wrong data type or invalid value, or relevance values are all zero or all one, or synthetic data contains missing values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
+<p>[1] P. Branco, L. Torgo, R. P. Ribeiro, “Pre-processing approaches for imbalanced distributions in regression,” Neurocomputing, 343, pp. 76-99, 2019.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ImbalancedLearningRegression</span> <span class="kn">import</span> <span class="n">gn</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">housing</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">housing_gn</span> <span class="o">=</span> <span class="n">gn</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">housing</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;SalePrice&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 

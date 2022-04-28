@@ -17,7 +17,6 @@ def smote(
     samp_method = "balance",  ## oversampling ("balance" or extreme")
     drop_na_col = True,       ## auto drop columns with nan's (bool)
     drop_na_row = True,       ## auto drop rows with nan's (bool)
-    replace = False,          ## sampling replacement (bool)
     
     ## phi relevance function arguments / inputs
     rel_thres = 0.5,          ## relevance threshold considered rare (pos real)
@@ -216,7 +215,7 @@ def smote(
             
             ## simply return no sampling
             ## results to modified training set
-            data_new = pd.concat([data.iloc[b_index[i].index], data_new])
+            data_new = pd.concat([data.iloc[b_index[i].index], data_new], ignore_index = True)
         
         ## over-sampling
         if s_perc[i] > 1:
@@ -233,7 +232,8 @@ def smote(
             
             ## concatenate over-sampling
             ## results to modified training set
-            data_new = pd.concat([synth_obs, data_new])
+            data_new = pd.concat([synth_obs, data_new], ignore_index = True)
+            data_new = pd.concat([data.iloc[b_index[i].index], data_new], ignore_index = True)
     
     ## rename feature headers to originals
     data_new.columns = feat_names

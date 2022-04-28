@@ -134,30 +134,33 @@ def under_sampling_random(
     )
     
     ## create null matrix to store the remaining synthetic observations
-    synth_matrix = np.ndarray(shape = ((n - n_synth), d))
+    # under_matrix = np.ndarray(shape = ((n - n_synth), d))
+    under_matrix = np.ndarray(shape = (n_synth, d))
+
     
-    ## create a sub_index for subset data
-    sub_index = []
-    for i in range(n):
-        sub_index.append(i)
+    # ## create a sub_index for subset data
+    # sub_index = []
+    # for i in range(n):
+    #     sub_index.append(i)
     
     ## find the non-intersecting values of sub_index and r_index  
-    new_index = np.setxor1d(sub_index, r_index)
+    # new_index = np.setxor1d(sub_index, r_index)
+    new_index = r_index
 
     # added
     ## store data in the synthetic matrix, data indices are chosen randomly above
     count = 0 
     for i in tqdm(new_index, ascii = True, desc = "new_index"):
         for attr in range(d):
-            synth_matrix[count, attr] = (data.iloc[i, attr])
+            under_matrix[count, attr] = (data.iloc[i, attr])
         count = count + 1
 
     ## convert synthetic matrix to dataframe
-    data_new = pd.DataFrame(synth_matrix)
+    data_new = pd.DataFrame(under_matrix)
     
     ## synthetic data quality check
     if sum(data_new.isnull().sum()) > 0:
-        raise ValueError("oops! synthetic data contains missing values")
+        raise ValueError("oops! under_sampled data contains missing values")
     
     ## replace label encoded values with original values
     for j in feat_list_nom:
@@ -177,7 +180,7 @@ def under_sampling_random(
                 column = feat_const[j], 
                 value = np.repeat(
                     data_orig.iloc[0, feat_const[j]], 
-                    len(synth_matrix))
+                    len(under_matrix))
             )
     
     ## convert negative values to zero in non-negative features

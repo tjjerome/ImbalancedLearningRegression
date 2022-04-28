@@ -165,13 +165,19 @@ def adasyn(
     )
 
     ## label each observation
-    ## if minority class - label 1, if majority class - label -1
-    label = []
-    for i in range(0, len(y_sort)):
+    ## if minority class - label 1, if majority class - label -1 # ????? Modified from Gloria and Lingyi's implementation
+    # label = []
+    # for i in range(0, len(y_sort)):
+    #     if (y_phi[i] > rel_thres):
+    #         label.append(1)
+    #     else:
+    #         label.append(-1)
+    label = [0 for i in range(len(y_sort))]
+    for i in range(len(y_sort)):
         if (y_phi[i] > rel_thres):
-            label.append(1)
+            label[y_sort.index[i]] = 1
         else:
-            label.append(-1)
+            label[y_sort.index[i]] = -1
 
     ## phi relevance quality check
     if all(i == 0 for i in y_phi):
@@ -308,6 +314,7 @@ def adasyn(
 
     for i in range(n):
         knn_index[i] = np.argsort(dist_matrix[i])[0:k + 1]
+    
     ## end of preprocessing
     ## ---------------------------------------------------------------------- ##
 
@@ -367,7 +374,7 @@ def adasyn(
         if s_perc[i] <= 1:
             ## simply return no sampling
             ## results to modified training set
-            data_new = pd.concat([data_orig.iloc[b_index[i].index], data_new])
+            data_new = pd.concat([data_orig.iloc[b_index[i].index], data_new], ignore_index = True) # ????? verify if data_orig matches columns UPDATE: semi-verified
 
         ## over-sampling
         if s_perc[i] > 1:
@@ -393,7 +400,7 @@ def adasyn(
 
             ## concatenate over-sampling
             ## results to modified training set
-            data_new = pd.concat([synth_obs, data_new])
+            data_new = pd.concat([synth_obs, data_new], ignore_index = True)
 
     ## rename feature headers to originals
     data_new.columns = feat_names

@@ -9,3 +9,6 @@ Glossary
 
     2D array
         A Matrix. A list of lists having the same length.
+
+    KNeighborsClassifier
+        A K-nearest-neighbor classifier class from Scikit-learn.

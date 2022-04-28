@@ -124,8 +124,8 @@ def cnn(
         raise ValueError("k must be a positive integer")
 
     ## quality check for n_jobs
-    if type(n_jobs) != int or n_jobs <= 0:
-        raise ValueError("n_jobs must be a positive integer")
+    if type(n_jobs) != int:
+        raise ValueError("n_jobs must be an integer")
     
     ## store data dimensions
     n = len(data)

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Random Over-sampling &mdash; ImbalancedLearningRegression 0.0.1 documentation</title>
+  <title>SMOTE &mdash; ImbalancedLearningRegression 0.0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Introduction of Gaussian Noise" href="gn.html" />
-    <link rel="prev" title="Welcome to ImbalancedLearningRegression’s documentation!" href="index.html" /> 
+    <link rel="prev" title="Random Over-sampling" href="ro.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -39,15 +39,18 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Over-sampling Techniques</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Random Over-sampling</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="ro.html">Random Over-sampling</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SMOTE</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="gn.html">Introduction of Gaussian Noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adasyn.html">ADASYN</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Under-sampling Techniques</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="ru.html">Random Under-sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cnn.html">Condensed Nearest Neighbor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="enn.html">Edited Nearest Neighbor</a></li>
 </ul>
@@ -70,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Random Over-sampling</li>
+      <li>SMOTE</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/ro.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/smote.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -80,23 +83,22 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="random-over-sampling">
-<h1>Random Over-sampling<a class="headerlink" href="#random-over-sampling" title="Permalink to this headline"></a></h1>
-<p>Random Over-sampling is an over-sampling method that synthesizes new samples by randomly copying minority samples.</p>
+  <section id="smote">
+<h1>SMOTE<a class="headerlink" href="#smote" title="Permalink to this headline"></a></h1>
+<p>Synthetic Minority Oversampling Technique.
+SMOTE is an over-sampling method that synthesizes new samples by using one of the neighbors of a seed sample.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="ro">
-<span class="sig-name descname"><span class="pre">ro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samp_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'balance'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_na_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_na_row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manual_perc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perc_o</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_xtrm_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'both'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_ctrl_pts_rg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ro" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">smote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samp_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'balance'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_na_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_na_row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_xtrm_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'both'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_ctrl_pts_rg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<a class="reference internal" href="glossary.html#term-Pandas-dataframe"><span class="xref std std-term">Pandas dataframe</span></a>) – Pandas dataframe, the dataset to re-sample.</p></li>
 <li><p><strong>y</strong> (<em>str</em>) – Column name of the target variable in the Pandas dataframe.</p></li>
+<li><p><strong>k</strong> (<em>int</em>) – The number of neighbors considered. Must be a positive integer.</p></li>
 <li><p><strong>samp_method</strong> (<em>str</em>) – Method to determine re-sampling percentage. Either <code class="docutils literal notranslate"><span class="pre">balance</span></code> or <code class="docutils literal notranslate"><span class="pre">extreme</span></code>.</p></li>
 <li><p><strong>drop_na_col</strong> (<em>bool</em>) – Determine whether or not automatically drop columns containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.</p></li>
 <li><p><strong>drop_na_row</strong> (<em>bool</em>) – Determine whether or not automatically drop rows containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.</p></li>
-<li><p><strong>replace</strong> (<em>bool</em>) – Randomly select sample to duplicate: with or without replacement.</p></li>
-<li><p><strong>manual_perc</strong> (<em>bool</em>) – Keep the same percentage of re-sampling for all bins. If <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">perc_o</span></code> is required to be a positive real number.</p></li>
-<li><p><strong>perc_o</strong> (<em>float</em>) – User-specified fixed percentage of over-sampling for all bins. Must be a positive real number if <code class="docutils literal notranslate"><span class="pre">manual_perc</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p></li>
 <li><p><strong>rel_thres</strong> (<em>float</em>) – Relevance threshold, above which a sample is considered rare. Must be a real number between 0 and 1 (0, 1].</p></li>
 <li><p><strong>rel_method</strong> (<em>str</em>) – Method to define the relevance function, either <code class="docutils literal notranslate"><span class="pre">auto</span></code> or <code class="docutils literal notranslate"><span class="pre">manual</span></code>. If <code class="docutils literal notranslate"><span class="pre">manual</span></code>, must specify <code class="docutils literal notranslate"><span class="pre">rel_ctrl_pts_rg</span></code>.</p></li>
 <li><p><strong>rel_xtrm_type</strong> (<em>str</em>) – Distribution focus, <code class="docutils literal notranslate"><span class="pre">high</span></code>, <code class="docutils literal notranslate"><span class="pre">low</span></code>, or <code class="docutils literal notranslate"><span class="pre">both</span></code>. If <code class="docutils literal notranslate"><span class="pre">high</span></code>, rare cases having small y values will be considerd as normal, and vise versa.</p></li>
@@ -118,14 +120,14 @@
 
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
-<p>[1] G Menardi, N. Torelli, “Training and assessing classification rules with imbalanced data,” Data Mining and Knowledge Discovery, 28(1), pp.92-122, 2014.</p>
-<p>[2] P. Branco, L. Torgo, R. P. Ribeiro, “Pre-processing approaches for imbalanced distributions in regression,” Neurocomputing, 343, pp. 76-99, 2019.</p>
+<p>[1] L. Torgo, R. P. Ribeiro, B. Pfahringer, P. Branco, “Smote for regression,” In Portuguese conference on artificial intelligence, pp. 378-389, 2013. Springer, Berlin, Heidelberg.</p>
+<p>[2] N. V. Chawla, K. W. Bowyer, L. O.Hall, W. P. Kegelmeyer, “SMOTE: synthetic minority over-sampling technique,” Journal of artificial intelligence research, 321-357, 2002.</p>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
-<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ImbalancedLearningRegression</span> <span class="kn">import</span> <span class="n">ro</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ImbalancedLearningRegression</span> <span class="kn">import</span> <span class="n">smote</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">housing</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">housing_ro</span> <span class="o">=</span> <span class="n">ro</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">housing</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;SalePrice&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">housing_smote</span> <span class="o">=</span> <span class="n">smote</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">housing</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;SalePrice&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -135,7 +137,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to ImbalancedLearningRegression’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ro.html" class="btn btn-neutral float-left" title="Random Over-sampling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="gn.html" class="btn btn-neutral float-right" title="Introduction of Gaussian Noise" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

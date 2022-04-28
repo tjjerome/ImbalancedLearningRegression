@@ -13,8 +13,8 @@ Random Over-sampling is an over-sampling method that synthesizes new samples by 
    :param bool drop_na_row: Determine whether or not automatically drop rows containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.
    :param bool replace: Randomly select sample to duplicate: with or without replacement.
    :param bool manual_perc: Keep the same percentage of re-sampling for all bins. If ``True``, ``perc_o`` is required to be a positive real number.
-   :param float perc_o: User-specified fixed percentage of re-sampling for all bins. Must be a positive real number if ``manual_perc = True``.
-   :param float rel_thres: Relevance threshold, above which a sample is considered rare. Must be a real number between 0 and 1.
+   :param float perc_o: User-specified fixed percentage of over-sampling for all bins. Must be a positive real number if ``manual_perc = True``.
+   :param float rel_thres: Relevance threshold, above which a sample is considered rare. Must be a real number between 0 and 1 (0, 1].
    :param str rel_method: Method to define the relevance function, either ``auto`` or ``manual``. If ``manual``, must specify ``rel_ctrl_pts_rg``.
    :param str rel_xtrm_type: Distribution focus, ``high``, ``low``, or ``both``. If ``high``, rare cases having small y values will be considerd as normal, and vise versa.
    :param float rel_coef: Coefficient for box plot.
@@ -22,7 +22,7 @@ Random Over-sampling is an over-sampling method that synthesizes new samples by 
    :type rel_ctrl_pts_rg: :term:`2D array`
    :return: Re-sampled dataset.
    :rtype: :term:`Pandas dataframe`
-   :raises ValueError: If an input attribute has wrong data type or invalid value.
+   :raises ValueError: If an input attribute has wrong data type or invalid value, or relevance values are all zero or all one, or synthetic data contains missing values.
 
 References
 ----------

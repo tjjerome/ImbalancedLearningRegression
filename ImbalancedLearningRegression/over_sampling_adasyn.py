@@ -78,10 +78,10 @@ def over_sampling_adasyn(
     d = len(data.columns)
 
     ## find knn_index that belong to the bump
-    ## and convert new index list to matrix
+    ## and convert new index list to matrix # ????? check
     temp = []
     for i in range(len(knn_index)):
-        if knn_index[i][0] in index:
+        if knn_index[i][0] in index: # ????? knn_index[i][0] == i
             temp.append(knn_index[i])
 
     knn_matrix = np.array(temp)
@@ -95,7 +95,7 @@ def over_sampling_adasyn(
     for i in range(len(knn_matrix)):
         count_majority = 0
         for j in range(1, k + 1):
-            if label[knn_matrix[i][j]] == -1:
+            if label[knn_matrix[i][j]] == -1: # ????? label sorted, knn_matrix[i][j] unsorted UPDATE: solved in adasyn.py
                 count_majority += 1
         ri = count_majority / k
         r.append(ri)
@@ -108,7 +108,7 @@ def over_sampling_adasyn(
     assert (sum(Rhat_i) > 0.99)
 
     ## calculate the number of new synthetic observations
-    ## that will be generated for each observation
+    ## that will be generated for each observation # ????? n_synth - sum(Gi) discarded
     Gi = []
     for rhat_i in Rhat_i:
         gi = round(rhat_i * n_synth)
@@ -149,7 +149,7 @@ def over_sampling_adasyn(
                     ## conduct synthetic minority over-sampling
                     ## technique for regression (adasyn)
                     diffs = data.iloc[knn_matrix[i, neigh], 0:(d - 1)] - data.iloc[index[i], 0:(d - 1)]
-                    synth_matrix[num + j, 0:(d - 1)] = data.iloc[index[i], 0:(d - 1)] + rd.random() * diffs
+                    synth_matrix[num + j, 0:(d - 1)] = data.iloc[index[i], 0:(d - 1)] + rd.random() * diffs # ????? SMOGN: boundary 1 excluded
 
                     ## randomly assign nominal / categorical features from
                     ## observed cases and selected neighbors
@@ -157,7 +157,7 @@ def over_sampling_adasyn(
                         synth_matrix[num + j, x] = [data.iloc[knn_matrix[i, neigh], x],
                                                     data.iloc[index[i], x]][round(rd.random())]
 
-                    ## generate synthetic y response variable by
+                    ## generate synthetic y response variable by # ????? SMOGN: loop over feat_list_num, only last z matters?
                     ## inverse distance weighted
                     for z in feat_list_num:
                         a = abs(data.iloc[index[i], z] -
@@ -211,7 +211,7 @@ def over_sampling_adasyn(
                 loc=int(feat_const[j]),
                 column=feat_const[j],
                 value=np.repeat(
-                    data.iloc[0, feat_const[j]],
+                    data.iloc[0, feat_const[j]], # ????? data or data_orig?
                     len(final_matrix))
             )
 

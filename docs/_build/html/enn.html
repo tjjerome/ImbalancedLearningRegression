@@ -45,7 +45,11 @@
 <p class="caption" role="heading"><span class="caption-text">Under-sampling Techniques</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="cnn.html">Condensed Nearest Neighbor</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Edited Nearest Neighbor</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Edited Nearest Neighbor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
 <ul>
@@ -78,6 +82,52 @@
              
   <section id="edited-nearest-neighbor">
 <h1>Edited Nearest Neighbor<a class="headerlink" href="#edited-nearest-neighbor" title="Permalink to this headline"></a></h1>
+<p>Edited Nearest Neighbor is an under-sampling method that edits the majority set by removing some of the majority samples from the original majority set.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">enn(data,</span> <span class="pre">y,</span> <span class="pre">samp_method</span> <span class="pre">=</span> <span class="pre">&quot;balance&quot;,</span> <span class="pre">drop_na_col</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">drop_na_row</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">rel_thres</span> <span class="pre">=</span> <span class="pre">0.5,</span> <span class="pre">rel_method</span> <span class="pre">=</span> <span class="pre">&quot;auto&quot;,</span> <span class="pre">rel_xtrm_type</span> <span class="pre">=</span> <span class="pre">&quot;both&quot;,</span> <span class="pre">rel_coef</span> <span class="pre">=</span> <span class="pre">1.5,</span> <span class="pre">rel_ctrl_pts_rg</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">k</span> <span class="pre">=</span> <span class="pre">3,</span> <span class="pre">n_jobs</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">k_neighbors_classifier</span> <span class="pre">=</span> <span class="pre">None):</span></span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="glossary.html#term-Pandas-dataframe"><span class="xref std std-term">Pandas dataframe</span></a>) – Pandas dataframe, the dataset to re-sample.</p></li>
+<li><p><strong>y</strong> (<em>str</em>) – Column name of the target variable in the Pandas dataframe.</p></li>
+<li><p><strong>samp_method</strong> (<em>str</em>) – Method to determine re-sampling percentage. Either <code class="docutils literal notranslate"><span class="pre">balance</span></code> or <code class="docutils literal notranslate"><span class="pre">extreme</span></code>.</p></li>
+<li><p><strong>drop_na_col</strong> (<em>bool</em>) – Determine whether or not automatically drop columns containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.</p></li>
+<li><p><strong>drop_na_row</strong> (<em>bool</em>) – Determine whether or not automatically drop rows containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.</p></li>
+<li><p><strong>rel_thres</strong> (<em>float</em>) – Relevance threshold, above which a sample is considered rare. Must be a real number between 0 and 1 (0, 1].</p></li>
+<li><p><strong>rel_method</strong> (<em>str</em>) – Method to define the relevance function, either <code class="docutils literal notranslate"><span class="pre">auto</span></code> or <code class="docutils literal notranslate"><span class="pre">manual</span></code>. If <code class="docutils literal notranslate"><span class="pre">manual</span></code>, must specify <code class="docutils literal notranslate"><span class="pre">rel_ctrl_pts_rg</span></code>.</p></li>
+<li><p><strong>rel_xtrm_type</strong> (<em>str</em>) – Distribution focus, <code class="docutils literal notranslate"><span class="pre">high</span></code>, <code class="docutils literal notranslate"><span class="pre">low</span></code>, or <code class="docutils literal notranslate"><span class="pre">both</span></code>. If <code class="docutils literal notranslate"><span class="pre">high</span></code>, rare cases having small y values will be considerd as normal, and vise versa.</p></li>
+<li><p><strong>rel_coef</strong> (<em>float</em>) – Coefficient for box plot.</p></li>
+<li><p><strong>rel_ctrl_pts_rg</strong> (<a class="reference internal" href="glossary.html#term-2D-array"><span class="xref std std-term">2D array</span></a>) – Manually specify the regions of interest. See <a class="reference external" href="https://github.com/nickkunz/smogn/blob/master/examples/smogn_example_3_adv.ipynb">SMOGN advanced example</a> for more details.</p></li>
+<li><p><strong>k</strong> (<em>int</em>) – The number of neighbors considered. Must be a positive integer.</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>) – The number of parallel jobs to run for neighbors search. Must be an integer. See <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html">sklearn.neighbors.KNeighborsClassifier</a> for more details.</p></li>
+<li><p><strong>k_neighbors_classifier</strong> (<a class="reference internal" href="glossary.html#term-KNeighborsClassifier"><span class="xref std std-term">KNeighborsClassifier</span></a>) – If users want to define more parameters of KNeighborsClassifier, such as <code class="docutils literal notranslate"><span class="pre">weights</span></code>, <code class="docutils literal notranslate"><span class="pre">algorithm</span></code>, <code class="docutils literal notranslate"><span class="pre">leaf_size</span></code>, and <code class="docutils literal notranslate"><span class="pre">metric</span></code>, they can create an instance of KNeighborsClassifier and pass it to this method. In that case, setting <code class="docutils literal notranslate"><span class="pre">k</span></code> and <code class="docutils literal notranslate"><span class="pre">n_jobs</span></code> will have no effect.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Re-sampled dataset.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="glossary.html#term-Pandas-dataframe"><span class="xref std std-term">Pandas dataframe</span></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If an input attribute has wrong data type or invalid value, or relevance values are all zero or all one.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
+<p>[1] D. Wilson, “Asymptotic Properties of Nearest Neighbor Rules Using Edited Data,” In IEEE Transactions on Systems, Man, and Cybernetrics, vol. 2 (3), pp. 408-421, 1972.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ImbalancedLearningRegression</span> <span class="kn">import</span> <span class="n">enn</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">housing</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">housing_enn</span> <span class="o">=</span> <span class="n">enn</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">housing</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;SalePrice&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
