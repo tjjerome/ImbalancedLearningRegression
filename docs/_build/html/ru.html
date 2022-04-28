@@ -51,6 +51,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cnn.html">Condensed Nearest Neighbor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tomeklinks.html">TomekLinks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="enn.html">Edited Nearest Neighbor</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
@@ -97,7 +98,7 @@
 <li><p><strong>drop_na_col</strong> (<em>bool</em>) – Determine whether or not automatically drop columns containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.</p></li>
 <li><p><strong>drop_na_row</strong> (<em>bool</em>) – Determine whether or not automatically drop rows containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.</p></li>
 <li><p><strong>replacement</strong> (<em>bool</em>) – Randomly select sample to duplicate: with or without replacement.</p></li>
-<li><p><strong>manual_perc</strong> (<em>bool</em>) – Keep the same percentage of re-sampling for all bins. If <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">perc_o</span></code> is required to be a positive real number.</p></li>
+<li><p><strong>manual_perc</strong> (<em>bool</em>) – Keep the same percentage of re-sampling for all bins. If <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">perc_u</span></code> is required to be a real number between 0 and 1 (0, 1).</p></li>
 <li><p><strong>perc_u</strong> (<em>float</em>) – User-specified fixed percentage of under-sampling for all bins. Must be a real number between 0 and 1 (0, 1) if <code class="docutils literal notranslate"><span class="pre">manual_perc</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p></li>
 <li><p><strong>rel_thres</strong> (<em>float</em>) – Relevance threshold, above which a sample is considered rare. Must be a real number between 0 and 1 (0, 1].</p></li>
 <li><p><strong>rel_method</strong> (<em>str</em>) – Method to define the relevance function, either <code class="docutils literal notranslate"><span class="pre">auto</span></code> or <code class="docutils literal notranslate"><span class="pre">manual</span></code>. If <code class="docutils literal notranslate"><span class="pre">manual</span></code>, must specify <code class="docutils literal notranslate"><span class="pre">rel_ctrl_pts_rg</span></code>.</p></li>

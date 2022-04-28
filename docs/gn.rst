@@ -15,7 +15,7 @@ This over-sampling method has an optional choice of random under-sampling.
    :param bool drop_na_col: Determine whether or not automatically drop columns containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.
    :param bool drop_na_row: Determine whether or not automatically drop rows containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.
    :param bool replace: For decimal part of the over-sampling percentage, a subset of original dataset will be choosed as base samples to introduce noise, the selection can be with or without replacement.
-   :param bool manual_perc: Keep the same percentage of re-sampling for all bins. If ``True``, ``perc_o`` is required to be a positive real number.
+   :param bool manual_perc: Keep the same percentage of re-sampling for all bins. If ``True``, ``perc_u`` is required to be a real number between 0 and 1 (0, 1), and ``perc_o`` is required to be a positive real number.
    :param float perc_u: User-specified fixed percentage of under-sampling for all bins. Must be a real number between 0 and 1 (0, 1) if ``manual_perc = True``.
    :param float perc_o: User-specified fixed percentage of over-sampling for all bins. Must be a positive real number if ``manual_perc = True``.
    :param float rel_thres: Relevance threshold, above which a sample is considered rare. Must be a real number between 0 and 1 (0, 1].

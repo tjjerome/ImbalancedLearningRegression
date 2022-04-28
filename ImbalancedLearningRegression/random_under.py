@@ -110,7 +110,7 @@ def random_under(
             raise ValueError("cannot proceed: require percentage of under-sampling if manual_perc == True")
         if perc_u <= 0:
             raise ValueError("percentage of under-sampling must be a positve real number")
-        if perc_u > 1:
+        if perc_u >= 1:
             raise ValueError("percentage of under-sampling must be less than 1")
     
     ## quality check for relevance threshold parameter
@@ -226,7 +226,7 @@ def random_under(
             
             ## simply return no sampling
             ## results to modified training set
-            data_new = pd.concat([data.iloc[b_index[i].index], data_new])
+            data_new = pd.concat([data.iloc[b_index[i].index], data_new], ignore_index = True)
         
         ## under-sampling
         if s_perc[i] < 1:
@@ -243,7 +243,7 @@ def random_under(
             
             ## concatenate over-sampling
             ## results to modified training set
-            data_new = pd.concat([synth_obs, data_new])
+            data_new = pd.concat([synth_obs, data_new], ignore_index = True)
 
     
     ## rename feature headers to originals

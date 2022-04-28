@@ -395,7 +395,8 @@ def adasyn(
                 data_var = data_var,
                 feat_const = feat_const,
                 feat_var = feat_var,
-                feat_non_neg = feat_non_neg
+                feat_non_neg = feat_non_neg,
+                data_orig = data_orig
             )
 
             ## concatenate over-sampling

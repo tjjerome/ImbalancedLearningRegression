@@ -18,8 +18,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Condensed Nearest Neighbor" href="cnn.html" />
-    <link rel="prev" title="Random Over-sampling" href="ro.html" /> 
+    <link rel="next" title="ADASYN" href="adasyn.html" />
+    <link rel="prev" title="SMOTE" href="smote.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,15 +40,19 @@
               <p class="caption" role="heading"><span class="caption-text">Over-sampling Techniques</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ro.html">Random Over-sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smote.html">SMOTE</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction of Gaussian Noise</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="adasyn.html">ADASYN</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Under-sampling Techniques</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="ru.html">Random Under-sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cnn.html">Condensed Nearest Neighbor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tomeklinks.html">TomekLinks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="enn.html">Edited Nearest Neighbor</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
@@ -98,7 +102,7 @@ This over-sampling method has an optional choice of random under-sampling.</p>
 <li><p><strong>drop_na_col</strong> (<em>bool</em>) – Determine whether or not automatically drop columns containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.</p></li>
 <li><p><strong>drop_na_row</strong> (<em>bool</em>) – Determine whether or not automatically drop rows containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.</p></li>
 <li><p><strong>replace</strong> (<em>bool</em>) – For decimal part of the over-sampling percentage, a subset of original dataset will be choosed as base samples to introduce noise, the selection can be with or without replacement.</p></li>
-<li><p><strong>manual_perc</strong> (<em>bool</em>) – Keep the same percentage of re-sampling for all bins. If <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">perc_o</span></code> is required to be a positive real number.</p></li>
+<li><p><strong>manual_perc</strong> (<em>bool</em>) – Keep the same percentage of re-sampling for all bins. If <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">perc_u</span></code> is required to be a real number between 0 and 1 (0, 1), and <code class="docutils literal notranslate"><span class="pre">perc_o</span></code> is required to be a positive real number.</p></li>
 <li><p><strong>perc_u</strong> (<em>float</em>) – User-specified fixed percentage of under-sampling for all bins. Must be a real number between 0 and 1 (0, 1) if <code class="docutils literal notranslate"><span class="pre">manual_perc</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p></li>
 <li><p><strong>perc_o</strong> (<em>float</em>) – User-specified fixed percentage of over-sampling for all bins. Must be a positive real number if <code class="docutils literal notranslate"><span class="pre">manual_perc</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p></li>
 <li><p><strong>rel_thres</strong> (<em>float</em>) – Relevance threshold, above which a sample is considered rare. Must be a real number between 0 and 1 (0, 1].</p></li>
@@ -138,8 +142,8 @@ This over-sampling method has an optional choice of random under-sampling.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="ro.html" class="btn btn-neutral float-left" title="Random Over-sampling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cnn.html" class="btn btn-neutral float-right" title="Condensed Nearest Neighbor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="smote.html" class="btn btn-neutral float-left" title="SMOTE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="adasyn.html" class="btn btn-neutral float-right" title="ADASYN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

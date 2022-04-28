@@ -22,7 +22,8 @@ def over_sampling_adasyn(
         data_var,
         feat_const,
         feat_var,
-        feat_non_neg    
+        feat_non_neg,
+        data_orig
 ):
     """
     generates synthetic observations and is the primary function underlying the
@@ -211,7 +212,7 @@ def over_sampling_adasyn(
                 loc=int(feat_const[j]),
                 column=feat_const[j],
                 value=np.repeat(
-                    data.iloc[0, feat_const[j]], # ????? data or data_orig?
+                    data_orig.iloc[0, feat_const[j]], # ????? data or data_orig? UPDATE: changed from data to data_orig, may be problematic to some datasets, need further verification.
                     len(final_matrix))
             )
 

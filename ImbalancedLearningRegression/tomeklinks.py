@@ -158,13 +158,19 @@ def tomeklinks(
     ## ---------------------------------------------------------------------- ##
 
     ## label each observation
-    ## if minority class - label 1, if majority class - label -1
-    label = []
-    for i in range(0, len(y_sort)):
-        if (y_phi[i] >= rel_thres):
-            label.append(1)
+    ## if minority class - label 1, if majority class - label -1 # ????? Modified from Gloria and Lingyi's implementation
+    # label = []
+    # for i in range(0, len(y_sort)):
+    #     if (y_phi[i] > rel_thres):
+    #         label.append(1)
+    #     else:
+    #         label.append(-1)
+    label = [0 for i in range(len(y_sort))]
+    for i in range(len(y_sort)):
+        if (y_phi[i] > rel_thres):
+            label[y_sort.index[i]] = 1
         else:
-            label.append(-1)
+            label[y_sort.index[i]] = -1
 
     ## call under_sampling_tomeklinks function
     data_new = under_sampling_tomeklinks(

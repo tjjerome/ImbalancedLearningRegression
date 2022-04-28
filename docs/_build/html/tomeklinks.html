@@ -48,7 +48,11 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ru.html">Random Under-sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cnn.html">Condensed Nearest Neighbor</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">TomekLinks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TomekLinks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="enn.html">Edited Nearest Neighbor</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
@@ -82,6 +86,50 @@
              
   <section id="tomeklinks">
 <h1>TomekLinks<a class="headerlink" href="#tomeklinks" title="Permalink to this headline"></a></h1>
+<p>TomekLinks is an under-sampling method that under-samples the majority/minority/both class(es) by removing TomekLinks.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">tomeklinks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'majority'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_na_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_na_row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_xtrm_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'both'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_ctrl_pts_rg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="glossary.html#term-Pandas-dataframe"><span class="xref std std-term">Pandas dataframe</span></a>) – Pandas dataframe, the dataset to re-sample.</p></li>
+<li><p><strong>y</strong> (<em>str</em>) – Column name of the target variable in the Pandas dataframe.</p></li>
+<li><p><strong>option</strong> (<em>str</em>) – Sampling information to sample the data set. If <code class="docutils literal notranslate"><span class="pre">majority</span></code>, resample only the majority class; if <code class="docutils literal notranslate"><span class="pre">minority</span></code>, resample only the minority class; if <code class="docutils literal notranslate"><span class="pre">both</span></code>, resample both majority and minority class.</p></li>
+<li><p><strong>drop_na_col</strong> (<em>bool</em>) – Determine whether or not automatically drop columns containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.</p></li>
+<li><p><strong>drop_na_row</strong> (<em>bool</em>) – Determine whether or not automatically drop rows containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.</p></li>
+<li><p><strong>rel_thres</strong> (<em>float</em>) – Relevance threshold, above which a sample is considered rare. Must be a real number between 0 and 1 (0, 1].</p></li>
+<li><p><strong>rel_method</strong> (<em>str</em>) – Method to define the relevance function, either <code class="docutils literal notranslate"><span class="pre">auto</span></code> or <code class="docutils literal notranslate"><span class="pre">manual</span></code>. If <code class="docutils literal notranslate"><span class="pre">manual</span></code>, must specify <code class="docutils literal notranslate"><span class="pre">rel_ctrl_pts_rg</span></code>.</p></li>
+<li><p><strong>rel_xtrm_type</strong> (<em>str</em>) – Distribution focus, <code class="docutils literal notranslate"><span class="pre">high</span></code>, <code class="docutils literal notranslate"><span class="pre">low</span></code>, or <code class="docutils literal notranslate"><span class="pre">both</span></code>. If <code class="docutils literal notranslate"><span class="pre">high</span></code>, rare cases having small y values will be considerd as normal, and vise versa.</p></li>
+<li><p><strong>rel_coef</strong> (<em>float</em>) – Coefficient for box plot.</p></li>
+<li><p><strong>rel_ctrl_pts_rg</strong> (<a class="reference internal" href="glossary.html#term-2D-array"><span class="xref std std-term">2D array</span></a>) – Manually specify the regions of interest. See <a class="reference external" href="https://github.com/nickkunz/smogn/blob/master/examples/smogn_example_3_adv.ipynb">SMOGN advanced example</a> for more details.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Re-sampled dataset.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="glossary.html#term-Pandas-dataframe"><span class="xref std std-term">Pandas dataframe</span></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If an input attribute has wrong data type or invalid value, or relevance values are all zero or all one, or synthetic data contains missing values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
+<p>[1] I. Tomek, “Two modifications of CNN,” In Systems, Man, and Cybernetics, IEEE Transactions on, vol. 6, pp 769-772, 1976.</p>
+<p>[2] T. Elhassan, M. Aljurf, “Classification of imbalance data using tomek link (t-link) combined with random under-sampling (rus) as a data reduction method,” Global J Technol Optim S, 1, 2016.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ImbalancedLearningRegression</span> <span class="kn">import</span> <span class="n">tomeklinks</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">housing</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">housing_tomeklinks</span> <span class="o">=</span> <span class="n">tomeklinks</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">housing</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;SalePrice&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 

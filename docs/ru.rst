@@ -12,7 +12,7 @@ Random Under-sampling is an under-sampling method that randomly select a subset 
    :param bool drop_na_col: Determine whether or not automatically drop columns containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.
    :param bool drop_na_row: Determine whether or not automatically drop rows containing NaN values. The data frame should not contain any missing values, so it is suggested to keep it as default.
    :param bool replacement: Randomly select sample to duplicate: with or without replacement.
-   :param bool manual_perc: Keep the same percentage of re-sampling for all bins. If ``True``, ``perc_o`` is required to be a positive real number.
+   :param bool manual_perc: Keep the same percentage of re-sampling for all bins. If ``True``, ``perc_u`` is required to be a real number between 0 and 1 (0, 1).
    :param float perc_u: User-specified fixed percentage of under-sampling for all bins. Must be a real number between 0 and 1 (0, 1) if ``manual_perc = True``.
    :param float rel_thres: Relevance threshold, above which a sample is considered rare. Must be a real number between 0 and 1 (0, 1].
    :param str rel_method: Method to define the relevance function, either ``auto`` or ``manual``. If ``manual``, must specify ``rel_ctrl_pts_rg``.
