@@ -149,7 +149,9 @@ def under_sampling_cnn(
     estimator.fit(train_X_minmax, train_y)
 
     ## loop through the majority set
-    for i in index:
+    randomized_index = index.copy()
+    rd.shuffle(randomized_index)
+    for i in randomized_index:
         if i in store_indices:
             continue
         predict_X = min_max_scaler.transform(data.iloc[i,:(d-1)].values.reshape(1,-1))

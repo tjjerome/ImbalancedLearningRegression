@@ -109,6 +109,9 @@ def under_sampling_tomeklinks(
     ## (strictly label encode, not one hot encode) 
     feat_list_nom = []
     nom_dtypes = ["object", "bool", "datetime64"]
+
+    # Unknown warning, may be handled later
+    pd.options.mode.chained_assignment = None
     
     for j in range(d):
         if data.dtypes[j] in nom_dtypes:

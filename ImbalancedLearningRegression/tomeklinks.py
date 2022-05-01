@@ -167,7 +167,7 @@ def tomeklinks(
     #         label.append(-1)
     label = [0 for i in range(len(y_sort))]
     for i in range(len(y_sort)):
-        if (y_phi[i] > rel_thres):
+        if (y_phi[i] >= rel_thres):
             label[y_sort.index[i]] = 1
         else:
             label[y_sort.index[i]] = -1

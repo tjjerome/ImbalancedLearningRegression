@@ -174,7 +174,7 @@ def adasyn(
     #         label.append(-1)
     label = [0 for i in range(len(y_sort))]
     for i in range(len(y_sort)):
-        if (y_phi[i] > rel_thres):
+        if (y_phi[i] >= rel_thres):
             label[y_sort.index[i]] = 1
         else:
             label[y_sort.index[i]] = -1
@@ -231,6 +231,9 @@ def adasyn(
     ## (strictly label encode, not one hot encode)
     feat_list_nom = []
     nom_dtypes = ["object", "bool", "datetime64"]
+
+    # Unknown warning, may be handled later
+    pd.options.mode.chained_assignment = None
 
     for j in range(d):
         if data.dtypes[j] in nom_dtypes:
