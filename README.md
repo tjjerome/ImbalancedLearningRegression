@@ -45,7 +45,6 @@ import ImbalancedLearnRegression as iblr
 
 ## load data
 housing = pandas.read_csv(
-    
     ## http://jse.amstat.org/v19n3/decock.pdf
     "https://raw.githubusercontent.com/paobranco/ImbalancedLearnRegression/master/data/housing.csv"
 )
@@ -70,6 +69,7 @@ housing_gn = iblr.gn(
 2. [Introduction of Gaussian Noise](https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Gaussian_noise.ipynb) <br>
 3. [Condensed Nearest Neighbor](https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Condensed%20Nearest%20Neighbour.ipynb) <br>
 4. [Edited Nearest Neighbor](https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Edited%20Nearest%20Neighbour.ipynb) <br>
+
 For the examples of other techniques, please refer to [here](https://github.com/paobranco/ImbalancedLearningRegression/tree/master/examples). <br>
 
 ## License
