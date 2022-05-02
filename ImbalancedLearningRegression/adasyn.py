@@ -6,7 +6,7 @@ from tqdm import tqdm
 ## load dependencies - internal
 from ImbalancedLearningRegression.phi import phi
 from ImbalancedLearningRegression.phi_ctrl_pts import phi_ctrl_pts
-from ImbalancedLearningRegression.over_sampling_adasyn import over_sampling_adasyn
+from over_sampling_adasyn import over_sampling_adasyn
 from ImbalancedLearningRegression.dist_metrics import euclidean_dist, heom_dist, overlap_dist
 
 ## adaptive synthetic minority over-sampling technique for regression
@@ -393,7 +393,7 @@ def adasyn(
                 ## inputs from preprocessing
                 knn_index = knn_index,
                 feat_list_nom = feat_list_nom,
-                feat_list_num = feat_list_nom,
+                feat_list_num = feat_list_num,
                 feat_ranges  = feat_ranges,
                 data_var = data_var,
                 feat_const = feat_const,

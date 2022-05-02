@@ -19,13 +19,13 @@ insurance = pandas.read_csv(
     "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/insurance.csv"
 )
 
-## conduct adasyn
-housing_adasyn = adasyn(
-    data = housing, 
-    y = "SalePrice" 
-)
+# ## conduct adasyn
+# housing_adasyn = adasyn(
+#     data = housing, 
+#     y = "SalePrice" 
+# )
 
-print(housing_adasyn)
+# print(housing_adasyn)
 
 # college_adasyn = adasyn(
 #     data = college, 
@@ -62,15 +62,15 @@ print(housing_adasyn)
 # print(insurance)
 # print(insurance_k)
 
-# ## red wine
-# red_wine = pandas.read_csv(
-#     "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/red_wine.csv"
-# )
+## red wine
+red_wine = pandas.read_csv(
+    "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/red_wine.csv"
+)
 
-# red_wine_basic = tomeklinks(
-#     data = red_wine,
-#     y = "quality"
-# )
+red_wine_basic = adasyn(
+    data = red_wine,
+    y = "quality"
+)
 
 # housing_smote = smote(
 #     data = housing, 
