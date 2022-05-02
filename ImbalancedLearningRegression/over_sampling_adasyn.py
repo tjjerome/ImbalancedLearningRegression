@@ -126,26 +126,38 @@ def over_sampling_adasyn(
 
             num = sum(Gi[:i])
 
-            for j in range(Gi[i]):
-                no_minority = True
-                ## check if there is at least 1 neighbor belongs to minority class
-                for l in range(1, k + 1):
-                    if label[knn_matrix[i][l]] == 1:
+            # ?????  ----- moved out of looping range(Gi[i])
+            no_minority = True # ????? not necessary
+            # ????? Modified.
+            minority_indices = list()
+            ## check if there is at least 1 neighbor belongs to minority class
+            for l in range(1, len(knn_matrix[i])):
+                if label[knn_matrix[i][l]] == 1: # ????? not necessary
+                    if knn_matrix[i][l] in index:
                         no_minority = False
+                        minority_indices.append(l)
+                    if len(minority_indices) == k:
+                        break
+                    elif len(minority_indices) > k:
+                        raise ValueError("Invalid length of minority_indices.")
+            # ????? ----- moved out of looping range(Gi[i])
 
-                if no_minority == True:
+            for j in range(Gi[i]):
+
+                if no_minority == True: # ????? equivalent to len(minority_indices) == 0
                     synth_matrix[num + j, 0:d] = data.iloc[index[i], 0:d]
 
+                # ????? Modified.
                 if no_minority == False:
                     neigh = int(np.random.choice(
-                        a=tuple(range(1, k + 1)),
+                        a=tuple(minority_indices),
                         size=1))
-                    ## check if the selected neighbor belongs to minority class
-                    ## and if not, reselect until this neighbor belongs to minority class
-                    while (label[knn_matrix[i][neigh]] != 1):
-                        neigh = int(np.random.choice(
-                            a=tuple(range(1, k + 1)),
-                            size=1))
+                    # ## check if the selected neighbor belongs to minority class
+                    # ## and if not, reselect until this neighbor belongs to minority class
+                    # while (label[knn_matrix[i][neigh]] != 1):
+                    #     neigh = int(np.random.choice(
+                    #         a=tuple(range(1, k + 1)),
+                    #         size=1))
 
                     ## conduct synthetic minority over-sampling
                     ## technique for regression (adasyn)

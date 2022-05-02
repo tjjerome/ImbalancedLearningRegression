@@ -1,5 +1,5 @@
 import pandas
-from ImbalancedLearningRegression import adasyn
+from adasyn import adasyn
 from tomeklinks import tomeklinks
 from smote import smote
 from smogn import smoter
@@ -19,11 +19,13 @@ insurance = pandas.read_csv(
     "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/insurance.csv"
 )
 
-# ## conduct adasyn
-# housing_adasyn = adasyn(
-#     data = housing, 
-#     y = "SalePrice" 
-# )
+## conduct adasyn
+housing_adasyn = adasyn(
+    data = housing, 
+    y = "SalePrice" 
+)
+
+print(housing_adasyn)
 
 # college_adasyn = adasyn(
 #     data = college, 
@@ -70,13 +72,13 @@ insurance = pandas.read_csv(
 #     y = "quality"
 # )
 
-housing_smote = smote(
-    data = housing, 
-    y = "SalePrice" 
-)
+# housing_smote = smote(
+#     data = housing, 
+#     y = "SalePrice" 
+# )
 
-insurance_k = smote(
-    data = insurance,
-    y = "charges",
-    k = 2
-)
+# insurance_k = smote(
+#     data = insurance,
+#     y = "charges",
+#     k = 2
+# )

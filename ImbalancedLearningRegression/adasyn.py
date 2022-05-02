@@ -316,7 +316,7 @@ def adasyn(
     knn_index = [None] * n
 
     for i in range(n):
-        knn_index[i] = np.argsort(dist_matrix[i])[0:k + 1]
+        knn_index[i] = np.argsort(dist_matrix[i])
     
     ## end of preprocessing
     ## ---------------------------------------------------------------------- ##
