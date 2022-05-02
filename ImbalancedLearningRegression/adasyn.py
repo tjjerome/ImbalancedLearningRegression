@@ -6,7 +6,7 @@ from tqdm import tqdm
 ## load dependencies - internal
 from ImbalancedLearningRegression.phi import phi
 from ImbalancedLearningRegression.phi_ctrl_pts import phi_ctrl_pts
-from over_sampling_adasyn import over_sampling_adasyn
+from ImbalancedLearningRegression.over_sampling_adasyn import over_sampling_adasyn
 from ImbalancedLearningRegression.dist_metrics import euclidean_dist, heom_dist, overlap_dist
 
 ## adaptive synthetic minority over-sampling technique for regression
