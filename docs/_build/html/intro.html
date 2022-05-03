@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Imbalanced Learning Regression &mdash; ImbalancedLearningRegression 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Random Over-sampling" href="ro.html" />
+    <link rel="prev" title="Welcome to ImbalancedLearningRegression’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> ImbalancedLearningRegression
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Imbalanced Learning Regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributions">Contributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Over-sampling Techniques</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ro.html">Random Over-sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smote.html">SMOTE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gn.html">Introduction of Gaussian Noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adasyn.html">ADASYN</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Under-sampling Techniques</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ru.html">Random Under-sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cnn.html">Condensed Nearest Neighbor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tomeklinks.html">TomekLinks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="enn.html">Edited Nearest Neighbor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ImbalancedLearningRegression</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Imbalanced Learning Regression</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/intro.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="imbalanced-learning-regression">
+<h1>Imbalanced Learning Regression<a class="headerlink" href="#imbalanced-learning-regression" title="Permalink to this headline"></a></h1>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline"></a></h2>
+<p>A Python implementation of sampling techniques for Regression. Conducts different sampling techniques for Regression. Useful for prediction problems where regression is applicable, but the values in the interest of predicting are rare or uncommon. This can also serve as a useful alternative to log transforming a skewed response variable, especially if generating synthetic data is also of interest.</p>
+</section>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline"></a></h2>
+<ol class="arabic simple">
+<li><p>An open-source Python supported version of sampling techniques for Regression, a variation of Nick Kunz’s package SMOGN.</p></li>
+<li><p>Supports Pandas DataFrame inputs containing mixed data types.</p></li>
+<li><p>Flexible inputs available to control the areas of interest within a continuous response variable and friendly parameters for re-sampling data.</p></li>
+<li><p>Purely Pythonic, developed for consistency, maintainability, and future improvement, no foreign function calls to C or Fortran, as contained in original R implementation.</p></li>
+</ol>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h2>
+<ol class="arabic simple">
+<li><p>Python 3</p></li>
+<li><p>NumPy</p></li>
+<li><p>Pandas</p></li>
+<li><p>Scikit-learn</p></li>
+</ol>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<p>Install pypi release</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">$ pip install ImbalancedLearningRegression</span>
+</pre></div>
+</div>
+<p>Install developer version</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">$ pip install git+https://github.com/paobranco/ImbalancedLearningRegression.git</span>
+</pre></div>
+</div>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">## load libraries</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ImbalancedLearningRegression</span> <span class="k">as</span> <span class="nn">iblr</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">## load data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">housing</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv&quot;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">## conduct Random Over-sampling</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">housing_ro</span> <span class="o">=</span> <span class="n">iblr</span><span class="o">.</span><span class="n">ro</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">housing</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;SalePrice&quot;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">## conduct Introduction of Gaussian Noise</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">housing_gn</span> <span class="o">=</span> <span class="n">iblr</span><span class="o">.</span><span class="n">gn</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">housing</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;SalePrice&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Random%20Over-sampling.ipynb">Random Over-sampling</a></p></li>
+<li><p><a class="reference external" href="https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Gaussian_noise.ipynb">Introduction of Gaussian Noise</a></p></li>
+<li><p><a class="reference external" href="https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Condensed%20Nearest%20Neighbour.ipynb">Condensed Nearest Neighbor</a></p></li>
+<li><p><a class="reference external" href="https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Edited%20Nearest%20Neighbour.ipynb">Edited Nearest Neighbor</a></p></li>
+</ol>
+<p>For the examples of other techniques, please refer to <a class="reference external" href="https://github.com/paobranco/ImbalancedLearningRegression/tree/master/examples">here</a>.</p>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline"></a></h2>
+<p>© Paula Branco, 2022. Licensed under the General Public License v3.0 (GPLv3).</p>
+</section>
+<section id="contributions">
+<h2>Contributions<a class="headerlink" href="#contributions" title="Permalink to this headline"></a></h2>
+<p>ImbalancedLearningRegression is open for improvements and maintenance. Your help is valued to make the package better for everyone.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
+<p>Branco, P., Torgo, L., Ribeiro, R. (2017). SMOGN: A Pre-Processing Approach for Imbalanced Regression. Proceedings of Machine Learning Research, 74:36-50. <a class="reference external" href="http://proceedings.mlr.press/v74/branco17a/branco17a.pdf">http://proceedings.mlr.press/v74/branco17a/branco17a.pdf</a></p>
+<p>Branco, P., Torgo, L., &amp; Ribeiro, R. P. (2019). Pre-processing approaches for imbalanced distributions in regression. Neurocomputing, 343, 76-99. <a class="reference external" href="https://www.sciencedirect.com/science/article/abs/pii/S0925231219301638">https://www.sciencedirect.com/science/article/abs/pii/S0925231219301638</a></p>
+<p>Chawla, N. V., Bowyer, K. W., Hall, L. O., &amp; Kegelmeyer, W. P. (2002). SMOTE: synthetic minority over-sampling technique. Journal of artificial intelligence research, 16, 321-357. <a class="reference external" href="https://www.jair.org/index.php/jair/article/view/10302">https://www.jair.org/index.php/jair/article/view/10302</a></p>
+<p>Elhassan, T., &amp; Aljurf, M. (2016). Classification of imbalance data using tomek link (t-link) combined with random under-sampling (rus) as a data reduction method. Global J Technol Optim S, 1. <a class="reference external" href="https://www.researchgate.net/profile/Mohamed-Shoukri-2/publication/326590590_Classification_of_Imbalance_Data_using_Tomek_Link_T-Link_Combined_with_Random_Under-sampling_RUS_as_a_Data_Reduction_Method/links/5b96a6a0a6fdccfd543cbc40/Classification-of-Imbalance-Data-using-Tomek-Link-T-Link-Combined-with-Random-Under-sampling-RUS-as-a-Data-Reduction-Method.pdf">https://www.researchgate.net/profile/Mohamed-Shoukri-2/publication/326590590_Classification_of_Imbalance_Data_using_Tomek_Link_T-Link_Combined_with_Random_Under-sampling_RUS_as_a_Data_Reduction_Method/links/5b96a6a0a6fdccfd543cbc40/Classification-of-Imbalance-Data-using-Tomek-Link-T-Link-Combined-with-Random-Under-sampling-RUS-as-a-Data-Reduction-Method.pdf</a></p>
+<p>Hart, P. (1968). The condensed nearest neighbor rule (corresp.). IEEE transactions on information theory, 14(3), 515-516. <a class="reference external" href="https://ieeexplore.ieee.org/document/1054155">https://ieeexplore.ieee.org/document/1054155</a></p>
+<p>He, H., Bai, Y., Garcia, E. A., &amp; Li, S. (2008, June). ADASYN: Adaptive synthetic sampling approach for imbalanced learning. In 2008 IEEE international joint conference on neural networks (IEEE world congress on computational intelligence) (pp. 1322-1328). IEEE. <a class="reference external" href="https://www.ele.uri.edu/faculty/he/PDFfiles/adasyn.pdf">https://www.ele.uri.edu/faculty/he/PDFfiles/adasyn.pdf</a></p>
+<p>Kunz, N., (2019). SMOGN. <a class="reference external" href="https://github.com/nickkunz/smogn">https://github.com/nickkunz/smogn</a></p>
+<p>Menardi, G., &amp; Torelli, N. (2014). Training and assessing classification rules with imbalanced data. Data mining and knowledge discovery, 28(1), 92-122. <a class="reference external" href="https://link.springer.com/article/10.1007/s10618-012-0295-5">https://link.springer.com/article/10.1007/s10618-012-0295-5</a></p>
+<p>Tomek, I. (1976). Two modifications of CNN. IEEE Trans. Systems, Man and Cybernetics, 6, 769-772. <a class="reference external" href="https://ieeexplore.ieee.org/document/4309452">https://ieeexplore.ieee.org/document/4309452</a></p>
+<p>Torgo, L., Ribeiro, R. P., Pfahringer, B., &amp; Branco, P. (2013, September). Smote for regression. In Portuguese conference on artificial intelligence (pp. 378-389). Springer, Berlin, Heidelberg. <a class="reference external" href="https://link.springer.com/chapter/10.1007/978-3-642-40669-0_33">https://link.springer.com/chapter/10.1007/978-3-642-40669-0_33</a></p>
+<p>Wilson, D. L. (1972). Asymptotic properties of nearest neighbor rules using edited data. IEEE Transactions on Systems, Man, and Cybernetics, (3), 408-421. <a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/4309137">https://ieeexplore.ieee.org/abstract/document/4309137</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to ImbalancedLearningRegression’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ro.html" class="btn btn-neutral float-right" title="Random Over-sampling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Wenglei Wu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

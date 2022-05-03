@@ -1,14 +1,12 @@
+Imbalanced Learning Regression
+=======================================
 
-## Imbalanced Learning Regression
-[![PyPI version](https://badge.fury.io/py/ImbalancedLearningRegression.svg)](https://badge.fury.io/py/ImbalancedLearningRegression)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-![GitHub last commit](https://img.shields.io/github/last-commit/paobranco/ImbalancedLearningRegression)
-
-## Description
+Description
+-----------
 A Python implementation of sampling techniques for Regression. Conducts different sampling techniques for Regression. Useful for prediction problems where regression is applicable, but the values in the interest of predicting are rare or uncommon. This can also serve as a useful alternative to log transforming a skewed response variable, especially if generating synthetic data is also of interest.
-<br>
 
-## Features
+Features
+--------
 1. An open-source Python supported version of sampling techniques for Regression, a variation of Nick Kunz's package SMOGN.
 
 2. Supports Pandas DataFrame inputs containing mixed data types.
@@ -17,66 +15,63 @@ A Python implementation of sampling techniques for Regression. Conducts differen
 
 4. Purely Pythonic, developed for consistency, maintainability, and future improvement, no foreign function calls to C or Fortran, as contained in original R implementation.
 
-## Requirements
+Requirements
+------------
 1. Python 3
 2. NumPy
 3. Pandas
 4. Scikit-learn
 
-## Installation
-```python
-## install pypi release
-pip install ImbalancedLearningRegression
+Installation
+------------
+Install pypi release
 
-## install developer version
-pip install git+https://github.com/paobranco/ImbalancedLearningRegression.git
-```
+.. doctest::
 
-## Usage
-```python
-## load libraries
-import pandas
-import ImbalancedLearningRegression as iblr
+    $ pip install ImbalancedLearningRegression
 
-## load data
-housing = pandas.read_csv(
-    ## http://jse.amstat.org/v19n3/decock.pdf
-    "https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv"
-)
+Install developer version
 
-## conduct Random Over-sampling
-housing_ro = iblr.ro(
-    data = housing, 
-    y = "SalePrice"
-)
+.. doctest::
 
-## conduct Introduction of Gaussian Noise
-housing_gn = iblr.gn(
-    data = housing, 
-    y = "SalePrice"
-)
-```
+    $ pip install git+https://github.com/paobranco/ImbalancedLearningRegression.git
 
-## Examples
-1. [Random Over-sampling](https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Random%20Over-sampling.ipynb) <br>
-2. [Introduction of Gaussian Noise](https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Gaussian_noise.ipynb) <br>
-3. [Condensed Nearest Neighbor](https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Condensed%20Nearest%20Neighbour.ipynb) <br>
-4. [Edited Nearest Neighbor](https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Edited%20Nearest%20Neighbour.ipynb) <br>
+Usage
+-----
+.. doctest::
 
-For the examples of other techniques, please refer to [here](https://github.com/paobranco/ImbalancedLearningRegression/tree/master/examples). <br>
+    >>> ## load libraries
+    >>> import pandas
+    >>> import ImbalancedLearningRegression as iblr
 
-## Documentation
-The documentation of the package can be found [here](https://imbalancedlearningregression.readthedocs.io/en/latest). <br>
+    >>> ## load data
+    >>> housing = pandas.read_csv("https://raw.githubusercontent.com/paobranco/ImbalancedLearningRegression/master/data/housing.csv")
 
-## License
+    >>> ## conduct Random Over-sampling
+    >>> housing_ro = iblr.ro(data = housing, y = "SalePrice")
 
+    >>> ## conduct Introduction of Gaussian Noise
+    >>> housing_gn = iblr.gn(data = housing, y = "SalePrice")
+
+Examples
+--------
+1. `Random Over-sampling <https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Random%20Over-sampling.ipynb>`_
+2. `Introduction of Gaussian Noise <https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Gaussian_noise.ipynb>`_
+3. `Condensed Nearest Neighbor <https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Condensed%20Nearest%20Neighbour.ipynb>`_
+4. `Edited Nearest Neighbor <https://github.com/paobranco/ImbalancedLearningRegression/blob/master/examples/Edited%20Nearest%20Neighbour.ipynb>`_
+
+For the examples of other techniques, please refer to `here <https://github.com/paobranco/ImbalancedLearningRegression/tree/master/examples>`_.
+
+License
+-------
 © Paula Branco, 2022. Licensed under the General Public License v3.0 (GPLv3).
 
-## Contributions
-
+Contributions
+-------------
 ImbalancedLearningRegression is open for improvements and maintenance. Your help is valued to make the package better for everyone.
 
-## Reference
+References
+----------
 
 Branco, P., Torgo, L., Ribeiro, R. (2017). SMOGN: A Pre-Processing Approach for Imbalanced Regression. Proceedings of Machine Learning Research, 74:36-50. http://proceedings.mlr.press/v74/branco17a/branco17a.pdf
 
@@ -99,7 +94,4 @@ Tomek, I. (1976). Two modifications of CNN. IEEE Trans. Systems, Man and Cyberne
 Torgo, L., Ribeiro, R. P., Pfahringer, B., & Branco, P. (2013, September). Smote for regression. In Portuguese conference on artificial intelligence (pp. 378-389). Springer, Berlin, Heidelberg. https://link.springer.com/chapter/10.1007/978-3-642-40669-0_33
 
 Wilson, D. L. (1972). Asymptotic properties of nearest neighbor rules using edited data. IEEE Transactions on Systems, Man, and Cybernetics, (3), 408-421. https://ieeexplore.ieee.org/abstract/document/4309137
-
-
-
 

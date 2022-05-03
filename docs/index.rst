@@ -11,6 +11,12 @@ Layout
 
 .. toctree::
    :maxdepth: 2
+   :caption: Introduction
+
+   intro
+
+.. toctree::
+   :maxdepth: 2
    :caption: Over-sampling Techniques
 
    ro
