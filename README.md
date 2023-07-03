@@ -8,6 +8,26 @@
 A Python implementation of sampling techniques for Regression. Conducts different sampling techniques for Regression. Useful for prediction problems where regression is applicable, but the values in the interest of predicting are rare or uncommon. This can also serve as a useful alternative to log transforming a skewed response variable, especially if generating synthetic data is also of interest.
 <br>
 
+## Citation
+If you use the code from this repository, please cite the following article:
+
+*Wu, W., Kunz, N., & Branco, P. (2022, September). ImbalancedLearningRegression-A Python Package to Tackle the Imbalanced Regression Problem. In Joint European Conference on Machine Learning and Knowledge Discovery in Databases (pp. 645-648). Cham: Springer Nature Switzerland.*
+
+For bibtex users:
+
+@inproceedings{wu2022imbalancedlearningregression,
+  title={ImbalancedLearningRegression-A Python Package to Tackle the Imbalanced Regression Problem},
+  author={Wu, Wenglei and Kunz, Nicholas and Branco, Paula},
+  booktitle={Joint European Conference on Machine Learning and Knowledge Discovery in Databases},
+  pages={645--648},
+  year={2022},
+  organization={Springer}
+}
+
+Article Link: 
+https://link.springer.com/chapter/10.1007/978-3-031-26422-1_48
+
+
 ## Features
 1. An open-source Python supported version of sampling techniques for Regression, a variation of Nick Kunz's package SMOGN.
 
